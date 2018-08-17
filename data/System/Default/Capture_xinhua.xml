@@ -1,0 +1,38 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:Locale="en-US">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="ROW">
+            <xs:complexType>
+              <xs:attribute name="Option" type="xs:string" />
+              <xs:attribute name="Value" type="xs:string" />
+              <xs:attribute name="Default_Value" type="xs:string" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <ROW Option="CaptureMode" Value="0" />
+  <ROW Option="IntegrationTime" Value="2000" />
+  <ROW Option="GainMode" Value="5" />
+  <ROW Option="BinningMode"/>
+  <ROW Option="TriggerDelayTime" Value="5000" />
+  <ROW Option="FrameDelayTime" Value="200" />
+  <ROW Option="CaptureFrameCount" Value="1" />
+  <ROW Option="TriggerPort" Value="NONE" />
+  <ROW Option="Angle" Value="0" />
+  <ROW Option="SetupHeight" Value="1200" />
+  <ROW Option="SAD" Value="1000" />
+  <ROW Option="PhysicsWidth" Value="410" />
+  <ROW Option="PhysicsHeight" Value="410" />
+  <ROW Option="ShowROI" Value="F" />
+  <ROW Option="OverlayValue" Value="0.2" />
+  <ROW Option="ShowBeamButton"/>
+  <ROW Option="LinkPanel" />
+  <ROW Option="SimImagePanel" />
+  <ROW Option="GetArmParameterMode" Value="FILE"/>
+  <ROW Option="ConfigForXinHua" Value="T" />
+</NewDataSet>

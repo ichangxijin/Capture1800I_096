@@ -1,0 +1,30 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:Locale="en-US">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="ROW">
+            <xs:complexType>
+              <xs:attribute name="Option" type="xs:string" />
+              <xs:attribute name="Value" type="xs:string" />
+              <xs:attribute name="Default_Value" type="xs:string" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <ROW Option="RVVerifyDetectTimeMs" Value="2000" />
+  <ROW Option="RVVerifyMaxError" Value="1" />
+  <ROW Option="RVVerifyTestLevel" Value="1" />
+  <ROW Option="CaptureRectTest" Value="0,0,720,400" />
+  <ROW Option="RVVerifySuccessCheckCount" Value="2" />
+  <ROW Option="RVVerifyBackFailCheckCount" Value="2" />
+  <ROW Option="RVVerifyReCheckSleepTime" Value="500" />
+  <ROW Option="RVVerifyReCheckInterval" Value="1000" />
+  <ROW Option="Energy" Value="15" />
+  <ROW Option="MU" Value="1000" />
+  <ROW Option="JawX" Value="25" />
+  <ROW Option="JawY" Value="25" />
+</NewDataSet>

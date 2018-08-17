@@ -1,0 +1,59 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="GenerateDRRModel">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Name" type="xs:string" minOccurs="0" />
+                <xs:element name="GenerateDRRModel" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <GenerateDRRModel>
+    <Name>Default</Name>
+    <GenerateDRRModel>-1024,0\-274,0.2\-24,0.2\176,0.2\776,1\1024,1</GenerateDRRModel>
+  </GenerateDRRModel>
+  <GenerateDRRModel>
+    <Name>Abdomen</Name>
+    <GenerateDRRModel>-1024,0\-274,0\-16,0\100,0.2\1024,1</GenerateDRRModel>
+  </GenerateDRRModel>
+  <GenerateDRRModel>
+    <Name>Air(Lung)</Name>
+    <GenerateDRRModel>-1024,0\-274,1\-24,0\176,0\776,0\1024,0</GenerateDRRModel>
+  </GenerateDRRModel>
+  <GenerateDRRModel>
+    <Name>Airway</Name>
+    <GenerateDRRModel>-1024,0\-990,0\918,1\1024,0</GenerateDRRModel>
+  </GenerateDRRModel>
+  <GenerateDRRModel>
+    <Name>Bone</Name>
+    <GenerateDRRModel>-1024,0\-274,0\-24,0\176,0\776,1\1024,1</GenerateDRRModel>
+  </GenerateDRRModel>
+  <GenerateDRRModel>
+    <Name>Breast</Name>
+    <GenerateDRRModel>-1024,0\-450,0\100,0.04\1024,1</GenerateDRRModel>
+  </GenerateDRRModel>
+  <GenerateDRRModel>
+    <Name>Chest</Name>
+    <GenerateDRRModel>-1024,0\-990,0\-450,0.6\100,0.1\1024,1</GenerateDRRModel>
+  </GenerateDRRModel>
+  <GenerateDRRModel>
+    <Name>Fat</Name>
+    <GenerateDRRModel>-1024,0\-274,0\-24,1\176,0\776,0\1024,0</GenerateDRRModel>
+  </GenerateDRRModel>
+  <GenerateDRRModel>
+    <Name>Pelvis Lateral</Name>
+    <GenerateDRRModel>-1024,0\-450,0\150,0.02\300,0\1024,1</GenerateDRRModel>
+  </GenerateDRRModel>
+  <GenerateDRRModel>
+    <Name>Soft Tissue</Name>
+    <GenerateDRRModel>-1024,0\-274,0\-24,0\176,1\776,0\1024,0</GenerateDRRModel>
+  </GenerateDRRModel>
+</NewDataSet>

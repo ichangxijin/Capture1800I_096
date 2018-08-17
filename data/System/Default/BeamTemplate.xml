@@ -1,0 +1,162 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="DATAPACKET">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="METADATA" minOccurs="0" maxOccurs="unbounded">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="FIELDS" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="FIELD" minOccurs="0" maxOccurs="unbounded">
+                        <xs:complexType>
+                          <xs:attribute name="fieldname" type="xs:string" />
+                          <xs:attribute name="attrname" type="xs:string" />
+                          <xs:attribute name="fieldtype" type="xs:string" />
+                          <xs:attribute name="WIDTH" type="xs:string" />
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="PARAMS" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:attribute name="LCID" type="xs:string" />
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="ROWDATA" minOccurs="0" maxOccurs="unbounded">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ROW" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="Name_9" type="xs:string" minOccurs="0" msdata:Ordinal="21" />
+                      <xs:element name="Value_9" type="xs:string" minOccurs="0" msdata:Ordinal="22" />
+                      <xs:element name="Name_10" type="xs:string" minOccurs="0" msdata:Ordinal="23" />
+                      <xs:element name="Value_10" type="xs:string" minOccurs="0" msdata:Ordinal="24" />
+                    </xs:sequence>
+                    <xs:attribute name="Beam_TempLateName" type="xs:string" />
+                    <xs:attribute name="Default" type="xs:string" />
+                    <xs:attribute name="Count" type="xs:string" />
+                    <xs:attribute name="Value_0" type="xs:string" />
+                    <xs:attribute name="Value_1" type="xs:string" />
+                    <xs:attribute name="Name_0" type="xs:string" />
+                    <xs:attribute name="Name_1" type="xs:string" />
+                    <xs:attribute name="Value_2" type="xs:string" />
+                    <xs:attribute name="Name_2" type="xs:string" />
+                    <xs:attribute name="Value_3" type="xs:string" />
+                    <xs:attribute name="Name_3" type="xs:string" />
+                    <xs:attribute name="Value_4" type="xs:string" />
+                    <xs:attribute name="Name_4" type="xs:string" />
+                    <xs:attribute name="Value_5" type="xs:string" />
+                    <xs:attribute name="Name_5" type="xs:string" />
+                    <xs:attribute name="Value_6" type="xs:string" />
+                    <xs:attribute name="Name_6" type="xs:string" />
+                    <xs:attribute name="Value_7" type="xs:string" />
+                    <xs:attribute name="Value_8" type="xs:string" />
+                    <xs:attribute name="Name_7" type="xs:string" />
+                    <xs:attribute name="Name_8" type="xs:string" />
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="Version" type="xs:string" />
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="DATAPACKET" />
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <DATAPACKET Version="2.0">
+    <METADATA>
+      <FIELDS>
+        <FIELD fieldname="Beam TempLateName" attrname="Beam_TempLateName" fieldtype="string" WIDTH="70" />
+        <FIELD attrname="Default" fieldtype="boolean" WIDTH="4" />
+        <FIELD attrname="Count" fieldtype="i4" />
+        <FIELD fieldname="Value 0" attrname="Value_0" fieldtype="r8" />
+        <FIELD fieldname="Value 1" attrname="Value_1" fieldtype="r8" />
+        <FIELD fieldname="Value 2" attrname="Value_2" fieldtype="r8" />
+        <FIELD fieldname="Value 3" attrname="Value_3" fieldtype="r8" />
+        <FIELD fieldname="Value 4" attrname="Value_4" fieldtype="r8" />
+        <FIELD fieldname="Value 5" attrname="Value_5" fieldtype="r8" />
+        <FIELD fieldname="Value 6" attrname="Value_6" fieldtype="r8" />
+        <FIELD fieldname="Value 7" attrname="Value_7" fieldtype="r8" />
+        <FIELD fieldname="Value 8" attrname="Value_8" fieldtype="r8" />
+        <FIELD fieldname="Value 9" attrname="Value_9" fieldtype="r8" />
+        <FIELD fieldname="Value 10" attrname="Value_10" fieldtype="r8" />
+        <FIELD fieldname="Value 11" attrname="Value_11" fieldtype="r8" />
+        <FIELD fieldname="Value 12" attrname="Value_12" fieldtype="r8" />
+        <FIELD fieldname="Value 13" attrname="Value_13" fieldtype="r8" />
+        <FIELD fieldname="Value 14" attrname="Value_14" fieldtype="r8" />
+        <FIELD fieldname="Value 15" attrname="Value_15" fieldtype="r8" />
+        <FIELD fieldname="Value 16" attrname="Value_16" fieldtype="r8" />
+        <FIELD fieldname="Value 17" attrname="Value_17" fieldtype="r8" />
+        <FIELD fieldname="Value 18" attrname="Value_18" fieldtype="r8" />
+        <FIELD fieldname="Value 19" attrname="Value_19" fieldtype="r8" />
+        <FIELD fieldname="Value 20" attrname="Value_20" fieldtype="r8" />
+        <FIELD fieldname="Value 21" attrname="Value_21" fieldtype="r8" />
+        <FIELD fieldname="Value 22" attrname="Value_22" fieldtype="r8" />
+        <FIELD fieldname="Value 23" attrname="Value_23" fieldtype="r8" />
+        <FIELD fieldname="Value 24" attrname="Value_24" fieldtype="r8" />
+        <FIELD fieldname="Value 25" attrname="Value_25" fieldtype="r8" />
+        <FIELD fieldname="Name 0" attrname="Name_0" fieldtype="string" />
+        <FIELD fieldname="Name 1" attrname="Name_1" fieldtype="string" />
+        <FIELD fieldname="Name 2" attrname="Name_2" fieldtype="string" />
+        <FIELD fieldname="Name 3" attrname="Name_3" fieldtype="string" />
+        <FIELD fieldname="Name 4" attrname="Name_4" fieldtype="string" />
+        <FIELD fieldname="Name 5" attrname="Name_5" fieldtype="string" />
+        <FIELD fieldname="Name 6" attrname="Name_6" fieldtype="string" />
+        <FIELD fieldname="Name 7" attrname="Name_7" fieldtype="string" />
+        <FIELD fieldname="Name 8" attrname="Name_8" fieldtype="string" />
+        <FIELD fieldname="Name 9" attrname="Name_9" fieldtype="string" />
+        <FIELD fieldname="Name 10" attrname="Name_10" fieldtype="string" />
+        <FIELD fieldname="Name 11" attrname="Name_11" fieldtype="string" />
+        <FIELD fieldname="Name 12" attrname="Name_12" fieldtype="string" />
+        <FIELD fieldname="Name 13" attrname="Name_13" fieldtype="string" />
+        <FIELD fieldname="Name 14" attrname="Name_14" fieldtype="string" />
+        <FIELD fieldname="Name 15" attrname="Name_15" fieldtype="string" />
+        <FIELD fieldname="Name 16" attrname="Name_16" fieldtype="string" />
+        <FIELD fieldname="Name 17" attrname="Name_17" fieldtype="string" />
+        <FIELD fieldname="Name 18" attrname="Name_18" fieldtype="string" />
+        <FIELD fieldname="Name 19" attrname="Name_19" fieldtype="string" />
+        <FIELD fieldname="Name 20" attrname="Name_20" fieldtype="string" />
+        <FIELD fieldname="Name 21" attrname="Name_21" fieldtype="string" />
+        <FIELD fieldname="Name 22" attrname="Name_22" fieldtype="string" />
+        <FIELD fieldname="Name 23" attrname="Name_23" fieldtype="string" />
+        <FIELD fieldname="Name 24" attrname="Name_24" fieldtype="string" />
+        <FIELD fieldname="Name 25" attrname="Name_25" fieldtype="string" />
+      </FIELDS>
+      <PARAMS LCID="1033" />
+    </METADATA>
+    <ROWDATA>
+      <ROW Beam_TempLateName="Two Beams( 5/10 )" Default="True" Count="2" Value_0="5" Value_1="10" Name_0="Field 5*5" Name_1="Field 10*10" />
+      <ROW Beam_TempLateName="Two Beams( 5/20 )" Default="True" Count="2" Value_0="5" Value_1="20" Name_0="Field 5*5" Name_1="Field 20*20" />
+      <ROW Beam_TempLateName="Two Beams( 5/25 )" Default="True" Count="2" Value_0="5" Value_1="25" Name_0="Field 5*5" Name_1="Field 25*25" />
+      <ROW Beam_TempLateName="Three Beams( 5/10/20 )" Default="True" Count="3" Value_0="5" Value_1="10" Name_0="Field 5*5" Name_1="Field 10*10" Value_2="20" Name_2="Field 20*20" />
+      <ROW Beam_TempLateName="Three Beams( 5/15/25 )" Default="True" Count="3" Value_0="5" Value_1="15" Name_0="Field 5*5" Name_1="Field 15*15" Value_2="25" Name_2="Field 25*25" />
+      <ROW Beam_TempLateName="Three Beams( 10/15/20 )" Default="True" Count="3" Value_0="10" Value_1="15" Name_0="Field 10*10" Name_1="Field 15*15" Value_2="20" Name_2="Field 25*25" />
+      <ROW Beam_TempLateName="Three Beams( 10/20/25 )" Default="True" Count="3" Value_0="10" Value_1="20" Name_0="Field 10*10" Name_1="Field 20*20" Value_2="25" Name_2="Field 25*25" />
+      <ROW Beam_TempLateName="Four Beams( 5/10/15/20 )" Default="True" Count="4" Value_0="5" Value_1="10" Name_0="Field 5*5" Name_1="Field 10*10" Value_2="15" Name_2="Field 15*15" Value_3="20" Name_3="Field 20*20" />
+      <ROW Beam_TempLateName="Five Beams( 5/10/15/20/25 )" Default="True" Count="5" Value_0="5" Value_1="10" Name_0="Field 5*5" Name_1="Field 10*10" Value_2="15" Name_2="Field 15*15" Value_3="20" Name_3="Field 20*20" Value_4="25" Name_4="Field 25*25" />
+      <ROW Beam_TempLateName="Six Beams( 5/10/15/20/25/30 )" Default="True" Count="6" Value_0="5" Value_1="10" Name_0="Field 5*5" Name_1="Field 10*10" Value_2="15" Name_2="Field 15*15" Value_3="20" Name_3="Field 20*20" Value_4="25" Name_4="Field 25*25" Value_5="30" Name_5="Field 30*30" />
+      <ROW Beam_TempLateName="Seven Beams( 5/10/15/20/25/30/35 )" Default="True" Count="7" Value_0="5" Value_1="10" Name_0="Field 5*5" Name_1="Field 10*10" Value_2="15" Name_2="Field 15*15" Value_3="20" Name_3="Field 20*20" Value_4="25" Name_4="Field 25*25" Value_5="30" Name_5="Field 30*30" Value_6="35" Name_6="Field 35*35" />
+      <ROW Beam_TempLateName="Nine Beams( 4/8/12/16/20/24/28/32/36 )" Default="True" Count="9" Value_0="4" Value_1="8" Name_0="Field 4*4" Name_1="Field 8*8" Value_2="12" Name_2="Field 12*12" Value_3="16" Name_3="Field 16*16" Value_4="20" Name_4="Field 20*20" Value_5="24" Name_5="Field 24*24" Value_6="28" Name_6="Field 28*28" Value_7="32" Value_8="36" Name_7="Field 32*32" Name_8="Field 36*36">
+        <Name_9 />
+        <Value_9 />
+        <Name_10>Field 44*44</Name_10>
+        <Value_10>44</Value_10>
+      </ROW>
+    </ROWDATA>
+  </DATAPACKET>
+</NewDataSet>

@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\system\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>..\system\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>false</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\system\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>..\system\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{96373C2C-EA12-41FB-8A15-A7F7FD48011F}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CapturePekinElmer\CaptureLocalFile.cs" />
+    <Compile Include="Capture1800I\Capture1800I_096Static.cs" />
+    <Compile Include="Capture1800I\CareRayErrors.cs" />
+    <Compile Include="Capture1800I\CareRayInterface.cs" />
+    <Compile Include="Capture1800I\CareRayStructures.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Image\ImageObject.cs" />
+    <Compile Include="GUI\ImgBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Image\LunImage.cs" />
+    <Compile Include="Image\xmlAcess_WL_Color_Model.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Pub_System\CapturePub.cs" />
+    <Compile Include="CapturePekinElmer\CaptureBase.cs" />
+    <Compile Include="CapturePekinElmer\CapturePKI.cs" />
+    <Compile Include="CapturePekinElmer\HisObject.cs" />
+    <Compile Include="CapturePekinElmer\Kernel32Interface.cs" />
+    <Compile Include="CapturePekinElmer\LogFPD.cs" />
+    <Compile Include="CapturePekinElmer\PKL_GBIFInterface.cs" />
+    <Compile Include="CapturePekinElmer\PKL_Interface.cs" />
+    <Compile Include="Pub_System\ClassPath.cs" />
+    <Compile Include="GUI\ControlBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\ControlBase.designer.cs">
+      <DependentUpon>ControlBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Image\Histogram_Data.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Pub_System\EnumClass.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pub_System\ProgressBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Pub_System\PubMatrix.cs" />
+    <Compile Include="TestCapture.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TestCapture.Designer.cs">
+      <DependentUpon>TestCapture.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TriggerSettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TriggerSettingForm.Designer.cs">
+      <DependentUpon>TriggerSettingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Trigger\Com\ByteCode.cs" />
+    <Compile Include="Trigger\Com\CmdReceivedEventArgs.cs" />
+    <Compile Include="Trigger\Com\ComFun.cs" />
+    <Compile Include="Trigger\Com\ComPort.cs" />
+    <Compile Include="Trigger\Com\ConstDefine.cs" />
+    <Compile Include="Trigger\Com\CRC.cs" />
+    <Compile Include="Trigger\Com\LogBase.cs" />
+    <Compile Include="Trigger\Com\LogDB.cs" />
+    <Compile Include="Trigger\TriggerBase.cs" />
+    <Compile Include="Trigger\TriggerCOM.cs" />
+    <Compile Include="Trigger\TriggerNONE.cs" />
+    <Compile Include="Pub_System\XmlField.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GUI\ControlBase.resx">
+      <DependentUpon>ControlBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TestCapture.resx">
+      <DependentUpon>TestCapture.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TriggerSettingForm.resx">
+      <DependentUpon>TriggerSettingForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0"?>
+<ROOT>
+  <SysConn>packet size=4096;User ID={0};Password={1};Initial Catalog={2};Data Source={3};persist security info=False</SysConn>
+  <HospitalMark>3000</HospitalMark>
+  <DatabaseServer>(local)</DatabaseServer>
+  <UserID>sa</UserID>
+  <Password>123456</Password>
+  <FilePath>D:\数据\test\data</FilePath>
+</ROOT>

@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<detectors> 
+  <detector index="0" type="1500R"> 
+    <IP>192.168.68.1</IP>  
+    <name>1500R</name>  
+    <portable>0</portable>  
+    <wireless>0</wireless>  
+    <usebattery>0</usebattery>  
+    <workmodes> 
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 
+		  <!-- 1-External sync mode -->  
+          <syncmode index="1" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+          <!-- 4-manual sync mode -->  
+          <syncmode index="4" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>5000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector> 
+
+  <detector index="1" type="1500Rm"> 
+    <IP>192.168.68.1</IP>  
+    <name>1500Rm</name>  
+    <portable>1</portable>  
+    <wireless>0</wireless>  
+    <usebattery>0</usebattery>  
+    <workmodes> 
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 
+		  <!-- 1-External sync mode -->  
+          <syncmode index="1" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+          <!-- 4-manual sync mode -->  
+          <syncmode index="4" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>5000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector>  
+  
+  <detector index="2" type="1500P"> 
+    <IP>192.168.68.1</IP>  
+    <name>1500P</name>  
+    <portable>1</portable>  
+    <wireless>1</wireless>  
+    <usebattery>1</usebattery>  
+    <workmodes>  
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 
+          <!-- 1-External sync mode -->  
+          <syncmode index="1" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode>  
+          <!-- 4-manual sync mode -->  
+          <syncmode index="4" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>5000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector> 
+  
+  <detector index="3" type="1500C"> 
+    <IP>192.168.68.1</IP>  
+    <name>1500C</name>  
+    <portable>1</portable>  
+    <wireless>0</wireless>  
+    <usebattery>0</usebattery>  
+    <workmodes> 
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 
+          <!-- 3-AED sync mode -->  
+          <syncmode index="3" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+			<!-- 2-soft sync mode -->  
+          <syncmode index="2" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>1000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+          <!-- 4-manual sync mode -->  
+          <syncmode index="4" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>5000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector>  
+  <detector index="3" type="1500C"> 
+    <IP>192.168.68.2</IP>  
+    <name>1500C</name>  
+    <portable>1</portable>  
+    <wireless>0</wireless>  
+    <usebattery>0</usebattery>  
+    <workmodes> 
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 
+          <!-- 3-AED sync mode -->  
+          <syncmode index="3" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode>  
+		   <!-- 2-soft sync mode -->  
+          <syncmode index="2" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>1000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+          <!-- 4-manual sync mode -->  
+          <syncmode index="4" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>5000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector>  
+  
+  <detector index="4" type="1800R"> 
+    <IP>192.168.68.1</IP>  
+    <name>1800R</name>  
+    <portable>0</portable>  
+    <wireless>0</wireless>  
+    <usebattery>0</usebattery>  
+    <workmodes> 
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 
+		  <!-- 1-External sync mode -->  
+          <syncmode index="1" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+          <!-- 4-manual sync mode -->  
+          <syncmode index="4" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>5000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector> 
+  
+  <detector index="5" type="500M"> 
+    <IP>192.168.68.1</IP>  
+    <name>500M</name>  
+    <portable>0</portable>  
+    <wireless>0</wireless>  
+    <usebattery>0</usebattery>  
+    <workmodes> 
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 
+          <!-- 1-external sync mode -->  
+          <syncmode index="1" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>2500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+        </syncmodes> 
+      </workmode> 
+	  <!-- preview mode. -->  
+      <workmode index="7" default="false"> 
+        <syncmodes> 
+          <!-- 1-external sync mode -->  
+          <syncmode index="1" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector> 
+  
+  <detector index="7" type="500P"> 
+    <IP>192.168.68.1</IP>  
+    <name>500P</name>  
+    <portable>1</portable>  
+    <wireless>1</wireless>  
+    <usebattery>1</usebattery>  
+    <workmodes> 
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 
+          <!-- 4-manual sync mode -->  
+          <syncmode index="4" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>5000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+          <!-- 1-External sync mode -->  
+          <syncmode index="1" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>2500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+          <!-- 3-Auto sync mode -->  
+          <syncmode index="3" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>2500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector> 
+  
+  <detector index="9" type="1800I"> 
+    <IP>192.168.68.1</IP>  
+    <name>1800I</name>  
+    <portable>0</portable>  
+    <wireless>0</wireless>  
+    <usebattery>0</usebattery>  
+    <workmodes> 
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 
+		  <!-- 1-External sync mode -->  
+          <syncmode index="1" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+          <!-- 3-AED sync mode -->  
+          <syncmode index="3" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode>  
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector> 
+  
+  <detector index="10" type="1500L"> 
+    <IP>192.168.68.1</IP>  
+    <name>1500L</name>  
+    <portable>0</portable>  
+    <wireless>0</wireless>  
+    <usebattery>0</usebattery>  
+    <workmodes> 
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 
+		  <!-- 1-External sync mode -->  
+          <syncmode index="1" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+          <!-- 3-AED sync mode -->  
+          <syncmode index="3" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode>  
+          <!-- 4-manual sync mode -->  
+          <syncmode index="4" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>5000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector>  
+  
+  <detector index="11" type="1500Cw"> 
+    <IP>192.168.68.1</IP>  
+    <name>1500Cw_A</name>  
+    <portable>1</portable>  
+    <wireless>1</wireless>  
+    <usebattery>1</usebattery>  
+    <workmodes> 
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 
+          <!-- 3-AED sync mode -->  
+          <syncmode index="3" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode>  
+		   <!-- 2-soft sync mode -->  
+          <syncmode index="2" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>1000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+          <!-- 4-manual sync mode -->  
+          <syncmode index="4" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>5000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector>
+  
+    <detector index="11" type="1500Cw"> 
+    <IP>192.168.68.2</IP>  
+    <name>1500Cw_B</name>  
+    <portable>1</portable>  
+    <wireless>1</wireless>  
+    <usebattery>1</usebattery>  
+    <workmodes> 
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 
+          <!-- 3-AED sync mode -->  
+          <syncmode index="3" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+		  <!-- 2-soft sync mode -->  
+          <syncmode index="2" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>1000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 		  
+          <!-- 4-manual sync mode -->  
+          <syncmode index="4" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>5000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector>
+  
+    <detector index="13" type="750M"> 
+    <IP>192.168.68.1</IP>  
+    <name>750M</name>  
+    <portable>0</portable>  
+    <wireless>0</wireless>  
+    <usebattery>0</usebattery>  
+    <workmodes> 
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 
+          <syncmode index="1" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>2500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode>  
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector>
+  
+    <detector index="14" type="1800L"> 
+    <IP>192.168.68.1</IP>  
+    <name>1800L</name>  
+    <portable>0</portable>  
+    <wireless>0</wireless>  
+    <usebattery>0</usebattery>  
+    <workmodes> 
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 
+ 		  <!-- 1-External sync mode -->  
+          <syncmode index="1" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode>	  
+		  <!-- 3-AED sync mode -->  
+          <syncmode index="3" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+          <!-- 4-manual sync mode -->  
+          <syncmode index="4" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>5000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector> 
+  
+  <detector index="14" type="1800L"> 
+    <IP>192.168.68.2</IP>  
+    <name>1800L</name>  
+    <portable>0</portable>  
+    <wireless>0</wireless>  
+    <usebattery>0</usebattery>  
+    <workmodes> 
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 
+ 		  <!-- 1-External sync mode -->  
+          <syncmode index="1" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode>	  
+		  <!-- 3-AED sync mode -->  
+          <syncmode index="3" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+          <!-- 4-manual sync mode -->  
+          <syncmode index="4" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>5000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector> 
+  <detector index="15" type="1800RV2"> 
+    <IP>192.168.68.1</IP>  
+    <name>1800R</name>  
+    <portable>0</portable>  
+    <wireless>0</wireless>  
+    <usebattery>0</usebattery>  
+    <workmodes> 
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 
+ 		  <!-- 1-External sync mode -->  
+          <syncmode index="1" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode>	  
+		  <!-- 3-AED sync mode -->  
+          <syncmode index="3" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+          <!-- 4-manual sync mode -->  
+          <syncmode index="4" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>5000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector>
+  <detector index="16" type="1500PV2"> 
+    <IP>192.168.68.1</IP>  
+    <name>1500P</name>  
+    <portable>1</portable>  
+    <wireless>1</wireless>  
+    <usebattery>1</usebattery>  
+    <workmodes> 
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 	
+		  <!-- 3-AED sync mode -->  
+          <syncmode index="3" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+		  <!-- 2-soft sync mode -->  
+          <syncmode index="2" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>1000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 		  
+          <!-- 4-manual sync mode -->  
+          <syncmode index="4" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>5000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector>  
+
+   <detector index="17" type="750Cw"> 
+    <IP>192.168.68.1</IP>  
+    <name>750Cw</name>  
+    <portable>1</portable>  
+    <wireless>1</wireless>  
+    <usebattery>1</usebattery>  
+    <workmodes> 
+      <!-- Rad mode. -->  
+      <workmode index="0" default="true"> 
+        <syncmodes> 
+          <!-- 3-AED sync mode -->  
+          <syncmode index="3" default="true"> 
+            <waittime>5</waittime>  
+            <exptime>500</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode>  
+          <!-- 4-manual sync mode -->  
+          <syncmode index="4" default="false"> 
+            <waittime>5</waittime>  
+            <exptime>5000</exptime>  
+            <delaytime>100</delaytime> 
+          </syncmode> 
+        </syncmodes> 
+      </workmode> 
+    </workmodes> 
+  </detector>
+  
+</detectors>

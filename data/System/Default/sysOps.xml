@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:Locale="en-US">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="ROW">
+            <xs:complexType>
+              <xs:attribute name="Option" type="xs:string" />
+              <xs:attribute name="Value" type="xs:string" />
+              <xs:attribute name="Default_Value" type="xs:string" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <ROW Option="Import_Convert_CT" Value="T" />
+  <ROW Option="Import_Convert_RS" Value="T" />
+  <ROW Option="PrinterRatioX" Value="1" />
+  <ROW Option="PrinterRatioY" Value="1" />
+  <ROW Option="DrawRatioOnPrinter" Value="True" />
+  <ROW Option="WLlimit"  Value="60" />  
+  <ROW Option="WLlimitScale"  Value="0.999" />
+  <ROW Option="CanCompute" />
+  <ROW Option="TransDataForDRR" />
+  <ROW Option= "MoveCenter" Value="1.0"/>
+  <ROW Option="LNGReduceShift" Value="T" />
+  <ROW Option="LATReduceShift" Value="T" />
+  <ROW Option="VRTReduceShift" Value="T" />
+  <ROW Option="ShowQA" Value="T" />
+</NewDataSet>
