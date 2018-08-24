@@ -9,112 +9,61 @@ using System.IO;
 
 namespace ImageCapturing
 {
-    public partial class CaptureParameterSetting : AMRT.ShowBaseControl
+    public partial class CaptureParameterSetting : Form
     {
         public CaptureParameterSetting()
         {
             InitializeComponent();
         }
 
-        protected override void gbtOK_Click(object sender, EventArgs e)
+        protected void btnOK_Click(object sender, EventArgs e)
         {
             //Capture Parameter
-            //CapturePub.saveCaptrueValue(XmlField.CaptureMode, comboBoxCaptureMode.SelectedIndex.ToString());
-            CapturePub.saveCaptrueValue(XmlField.IntegrationTime, textIntegrationTime.Text);
-            CapturePub.saveCaptrueValue(XmlField.CaptureFrameCount, textBoxFrameCount.Text);
-            CapturePub.saveCaptrueValue(XmlField.FrameDelayTime, textBoxFrameDelay.Text);
-            CapturePub.saveCaptrueValue(XmlField.GainMode, comboBoxGainMode.SelectedIndex.ToString());
-            CapturePub.saveCaptrueValue(XmlField.BinningMode, (comboBoxBinningMode.SelectedIndex + 1).ToString());
-            //CapturePub.saveCaptrueValue(XmlField.ImageCorrection, comboBoxPanelInterface.SelectedIndex.ToString());
-            if (CapturePub.readCaptrueValue(XmlField.PanelInterface, false) != comboBoxPanelInterface.SelectedIndex.ToString())
+            if (comboBoxWorkMode.SelectedIndex == 0)
             {
-                CapturePub.saveCaptrueValue(XmlField.PanelInterface, comboBoxPanelInterface.SelectedIndex.ToString());
-                CapturePub.saveCaptrueValue(XmlField.NeedCheckPanelInterface, "T");
+                CapturePub.saveCaptrueValue(XmlField.KZCheckMode, ((int)CareRayInterface.CheckMode.MODE_RAD).ToString());
             }
+            else if (comboBoxWorkMode.SelectedIndex == 1)
+            {
+                CapturePub.saveCaptrueValue(XmlField.KZCheckMode, ((int)CareRayInterface.CheckMode.MODE_FLUORO_START + 2).ToString());
+            }
+            else if (comboBoxWorkMode.SelectedIndex == 2)
+            {
+                CapturePub.saveCaptrueValue(XmlField.KZCheckMode, ((int)CareRayInterface.CheckMode.MODE_RAD).ToString());
+            }
+            CapturePub.saveCaptrueValue(XmlField.CareRay_ExposureTime, this.textBoxExposureTime.Text);
+            CapturePub.saveCaptrueValue(XmlField.CareRay_ExposureDelay, this.textBoxDelayTime.Text);
+            CapturePub.saveCaptrueValue(XmlField.CareRay_ExposureWait, this.textBoxWaitTime.Text);
 
-           
-            if (comboBoxTriggerMode.SelectedIndex == 1)
-            {
-                CapturePub.saveCaptrueValue(XmlField.TriggerMode, "0");
-            } 
-            else
-            {
-                CapturePub.saveCaptrueValue(XmlField.TriggerMode, "3");
-            }
-            base.gbtOK_Click(sender, e);
+            this.DialogResult = DialogResult.OK;
         }
 
         private void CaptureParameterSetting_Load(object sender, EventArgs e)
         {
             //Capture Parameter
-            int xmlValue;
             string xmlValueString;
-            //if (int.TryParse(CapturePub.readCaptrueValue(XmlField.CaptureMode,false), out xmlValue))
-            //{
-            //    comboBoxCaptureMode.SelectedIndex = xmlValue;
-            //}
-            //else
-            //{
-            //    comboBoxCaptureMode.SelectedIndex = 0;
-            //}
-            xmlValueString = CapturePub.readCaptrueValue(XmlField.CaptureFrameCount);
-            textBoxFrameCount.Text = (xmlValueString == "" ? "1" : xmlValueString);
-            xmlValueString = CapturePub.readCaptrueValue(XmlField.IntegrationTime);
-            textIntegrationTime.Text = (xmlValueString == "" ? "2000" : xmlValueString);
-            xmlValueString = CapturePub.readCaptrueValue(XmlField.FrameDelayTime);
-            textBoxFrameDelay.Text = (xmlValueString == "" ? "200" : xmlValueString);
-
-            if (int.TryParse(CapturePub.readCaptrueValue(XmlField.GainMode, false), out xmlValue))
+            xmlValueString = CapturePub.readCaptrueValue(XmlField.KZCheckMode);
+            if (xmlValueString == ((int)CareRayInterface.CheckMode.MODE_RAD).ToString())
             {
-                this.comboBoxGainMode.SelectedIndex = xmlValue;
+                comboBoxWorkMode.SelectedIndex = 0;
             }
-            else
+            else if (xmlValueString == ((int)CareRayInterface.CheckMode.MODE_FLUORO_START + 2).ToString())
             {
-                this.comboBoxGainMode.SelectedIndex = 0;
+                comboBoxWorkMode.SelectedIndex = 1;
             }
-            if (int.TryParse(CapturePub.readCaptrueValue(XmlField.BinningMode, false), out xmlValue))
+            else if (xmlValueString == ((int)CareRayInterface.CheckMode.MODE_FLUORO_START).ToString())
             {
-                this.comboBoxBinningMode.SelectedIndex = xmlValue - 1;
-            }
-            else
-            {
-                comboBoxBinningMode.SelectedIndex = 0;
-            }
-            if (int.TryParse(CapturePub.readCaptrueValue(XmlField.PanelInterface, false), out xmlValue))
-            {
-                this.comboBoxPanelInterface.SelectedIndex = xmlValue;
-            }
-            else
-            {
-                comboBoxPanelInterface.SelectedIndex = 0;
+                comboBoxWorkMode.SelectedIndex = 2;
             }
 
-            if (int.TryParse(CapturePub.readCaptrueValue(XmlField.TriggerMode, false), out xmlValue))
-            {
-                if (xmlValue == 0)
-                {
-                    comboBoxTriggerMode.SelectedIndex = 1;
-                }
-                else
-                {
-                    comboBoxTriggerMode.SelectedIndex = 0;
-                }
-            }
-            else
-            {
-                comboBoxTriggerMode.SelectedIndex = 0;
-            } 
-            //if (int.TryParse(CapturePub.readCaptrueValue(XmlField.ImageCorrection, false), out xmlValue))
-            //{
-            //    this.comboBoxPanelInterface.SelectedIndex = xmlValue;
-            //}
-            //else
-            //{
-            //    comboBoxPanelInterface.SelectedIndex = 0;
-            //}
+            this.textBoxExposureTime.Text = CapturePub.readCaptrueValue(XmlField.CareRay_ExposureTime);
+            this.textBoxDelayTime.Text = CapturePub.readCaptrueValue(XmlField.CareRay_ExposureDelay);
+            this.textBoxWaitTime.Text = CapturePub.readCaptrueValue(XmlField.CareRay_ExposureWait);
+        }
 
-            textBoxFrameCount.SelectAll();
-            textBoxFrameCount.Focus();
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
         }
     }
 }

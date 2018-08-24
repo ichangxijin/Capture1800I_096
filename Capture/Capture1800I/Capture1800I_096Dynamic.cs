@@ -15,11 +15,11 @@ namespace ImageCapturing
         private CareRayInterface.DetectorInfo detectorInfo = new CareRayInterface.DetectorInfo();
         private CareRayInterface.StatusInfo statusInfo = new CareRayInterface.StatusInfo();
         private CareRayInterface.ModeInfo modeInfo = new CareRayInterface.ModeInfo();
-        private CareRayInterface.ExpProgress expProg = new CareRayInterface.ExpProgress();
-        private CareRayInterface.ExpProgress calProg = new CareRayInterface.ExpProgress();
+        //private CareRayInterface.ExpProgress expProg = new CareRayInterface.ExpProgress();
+        //private CareRayInterface.ExpProgress calProg = new CareRayInterface.ExpProgress();
         private CareRayInterface.UserCorrection userCorrection = new CareRayInterface.UserCorrection();
-        private CareRayInterface.FrameAttr obj = new CareRayInterface.FrameAttr();
-        private CareRayInterface.CalParams cal_params = new CareRayInterface.CalParams();
+        //private CareRayInterface.FrameAttr obj = new CareRayInterface.FrameAttr();
+        //private CareRayInterface.CalParams cal_params = new CareRayInterface.CalParams();
         private CareRayInterface.FpgaReg fpga = new CareRayInterface.FpgaReg();
 
         /// <summary>
@@ -34,10 +34,6 @@ namespace ImageCapturing
         /// 统计采集到的亮场图像数量；
         /// </summary>
         int acqBrightImageNumber = 0;
-        /// <summary>
-        /// 需要采集的帧数；
-        /// </summary>
-        public int acqImageNuber = 100;
         /// <summary>
         /// 执行后台采集线程的唯一标识符号
         /// </summary>
@@ -200,12 +196,6 @@ namespace ImageCapturing
                 int currentDetectorType = CareRayInterface.CR_get_detector_type();
                 Console.WriteLine("Detector type:{0}", new object[] { ((CareRayInterface.DetectorType)currentDetectorType).ToString() });
 
-                //设置探测器的工作模式；Rad模式；
-                result = CareRayInterface.CR_set_check_mode((int)checkMode);
-                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
-                {
-                    Console.WriteLine("Set mode error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
-                }
                 //输出探测器的模式信息；
                 result = showModeInfo();
                 if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
@@ -305,7 +295,7 @@ namespace ImageCapturing
         /// <summary>
         /// 从本地文件读取采集配置参数
         /// </summary>
-        void ReadCaptureConfig()
+        public override void ReadCaptureConfig()
         {
             //1,工作模式；
             checkMode = CareRayInterface.CheckMode.MODE_FLUORO_START + 2;
@@ -350,11 +340,19 @@ namespace ImageCapturing
         /// 静态模式有对应的积分时间校正文件，设置Gain校正文件是否调用的函数快速返回，不然会设置错误，导致时间很长
         /// 所以这里设置积分时间，再设置是否调用Gain校正文件
         /// </summary>
-        void RefreshPanelSettings()
+        public override void RefreshPanelSettings()
         {
             try
             {
                 int result;
+
+
+                //设置探测器的工作模式；Rad模式；
+                result = CareRayInterface.CR_set_check_mode((int)checkMode);
+                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+                {
+                    Console.WriteLine("Set mode error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
+                }
 
                 //1，设置Trigger同步模式
                 result = CareRayInterface.CR_set_sync_mode((int)TriggerSyncMode);
@@ -577,7 +575,7 @@ namespace ImageCapturing
 
             #region Step(1):设置采集的帧数
 
-            acqImageNuber = 3;
+            //acqImageNuber = 3;
 
             #endregion//End Step(1)
 

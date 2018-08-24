@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Capture1800I\Capture1800I_096Dynamic.cs" />
     <Compile Include="Capture1800I\Capture1800I_096.cs" />
     <Compile Include="CapturePekinElmer\CaptureLocalFile.cs" />
     <Compile Include="Capture1800I\Capture1800I_096Static.cs" />
@@ -56,6 +57,12 @@
     <Compile Include="Capture1800I\CareRayInterface.cs" />
     <Compile Include="Capture1800I\CareRayStructures.cs">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GUI\CaptureParameterSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\CaptureParameterSetting.Designer.cs">
+      <DependentUpon>CaptureParameterSetting.cs</DependentUpon>
     </Compile>
     <Compile Include="Image\ImageObject.cs" />
     <Compile Include="GUI\ImgBase.cs">
@@ -117,6 +124,9 @@
     <Compile Include="Pub_System\XmlField.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GUI\CaptureParameterSetting.resx">
+      <DependentUpon>CaptureParameterSetting.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\ControlBase.resx">
       <DependentUpon>ControlBase.cs</DependentUpon>
     </EmbeddedResource>

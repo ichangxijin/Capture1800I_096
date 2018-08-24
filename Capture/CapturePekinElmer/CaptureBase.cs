@@ -70,6 +70,11 @@ namespace ImageCapturing
         /// </summary>
         public int SeqFrameCount = 1;
 
+        /// <summary>
+        /// 需要采集的帧数；
+        /// </summary>
+        public int acqImageNuber = 100;
+
         protected IntPtr HostHandle = IntPtr.Zero;
         protected IntPtr MainHandle = IntPtr.Zero;
 
@@ -77,7 +82,6 @@ namespace ImageCapturing
 
         public bool WorkStatus = false;
         public PanelLinkStatus LinkStatus = PanelLinkStatus.NONE;
-        private System.Threading.Timer timer = null;
 
         private Dictionary<int, string> WM_msgs = new Dictionary<int, string>();
         private Random ramdomGenerater = new Random(); //和消息对应的随机数，用来传递window消息
@@ -275,6 +279,15 @@ namespace ImageCapturing
             phyCenterY = phyH / 2.0f + offsetY;
         }
 
+        public virtual void ReadCaptureConfig()
+        {
+
+        }
+
+        public virtual void RefreshPanelSettings()
+        {
+
+        }
 
         public virtual void RefreshScale()
         {

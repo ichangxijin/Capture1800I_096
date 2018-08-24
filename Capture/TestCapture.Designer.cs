@@ -31,11 +31,14 @@ namespace ImageCapturing
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestCapture));
             this.panel2 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.buttonoffsetCal = new System.Windows.Forms.Button();
             this.buttongainCal = new System.Windows.Forms.Button();
             this.btnCapture = new System.Windows.Forms.Button();
             this.panelAquire = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.labelTriggerNumber = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.labelCaptureNumber = new System.Windows.Forms.Label();
@@ -58,15 +61,14 @@ namespace ImageCapturing
             this.labelsplit = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panelMain = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.buttonCapturePara = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panelAquire.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panelProgress.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -75,6 +77,7 @@ namespace ImageCapturing
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.buttonCapturePara);
             this.panel2.Controls.Add(this.button1);
             this.panel2.Controls.Add(this.buttonoffsetCal);
             this.panel2.Controls.Add(this.buttongainCal);
@@ -84,6 +87,19 @@ namespace ImageCapturing
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(420, 74);
             this.panel2.TabIndex = 2;
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button1.Font = new System.Drawing.Font("Arial", 9F);
+            this.button1.ForeColor = System.Drawing.Color.Black;
+            this.button1.Location = new System.Drawing.Point(150, 8);
+            this.button1.Name = "button1";
+            this.button1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.button1.Size = new System.Drawing.Size(60, 60);
+            this.button1.TabIndex = 12;
+            this.button1.Text = "Trigger";
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // buttonoffsetCal
             // 
@@ -147,6 +163,23 @@ namespace ImageCapturing
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(420, 513);
             this.panel3.TabIndex = 9;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(204, 438);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 24);
+            this.textBox1.TabIndex = 5;
+            this.textBox1.Text = "1";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(12, 445);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(153, 17);
+            this.label11.TabIndex = 4;
+            this.label11.Text = "Plan Capture Number:";
             // 
             // labelTriggerNumber
             // 
@@ -389,35 +422,18 @@ namespace ImageCapturing
             this.panelMain.Size = new System.Drawing.Size(533, 587);
             this.panelMain.TabIndex = 0;
             // 
-            // button1
+            // buttonCapturePara
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Font = new System.Drawing.Font("Arial", 9F);
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(150, 8);
-            this.button1.Name = "button1";
-            this.button1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button1.Size = new System.Drawing.Size(60, 60);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "Trigger";
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(12, 445);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(153, 17);
-            this.label11.TabIndex = 4;
-            this.label11.Text = "Plan Capture Number:";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(204, 438);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 24);
-            this.textBox1.TabIndex = 5;
-            this.textBox1.Text = "100";
+            this.buttonCapturePara.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonCapturePara.Font = new System.Drawing.Font("Arial", 9F);
+            this.buttonCapturePara.ForeColor = System.Drawing.Color.Black;
+            this.buttonCapturePara.Location = new System.Drawing.Point(216, 7);
+            this.buttonCapturePara.Name = "buttonCapturePara";
+            this.buttonCapturePara.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.buttonCapturePara.Size = new System.Drawing.Size(60, 60);
+            this.buttonCapturePara.TabIndex = 13;
+            this.buttonCapturePara.Text = "CapSet";
+            this.buttonCapturePara.Click += new System.EventHandler(this.buttonCapturePara_Click);
             // 
             // TestCapture
             // 
@@ -442,6 +458,7 @@ namespace ImageCapturing
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -482,6 +499,7 @@ namespace ImageCapturing
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button buttonCapturePara;
     }
 }
 

@@ -28,76 +28,38 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Button1 = new AMRT.GraphicButton();
-            this.btn_Close1 = new AMRT.GraphicButton();
+            this.Button1 = new System.Windows.Forms.Button();
+            this.btn_Close1 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.gbCapSet = new System.Windows.Forms.GroupBox();
-            this.comboBoxBinningMode = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.comboBoxGainMode = new System.Windows.Forms.ComboBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.textBoxFrameCount = new AMRT.MaskedTextBox();
-            this.textBoxFrameDelay = new AMRT.MaskedTextBox();
-            this.textIntegrationTime = new AMRT.MaskedTextBox();
+            this.textBoxDelayTime = new System.Windows.Forms.TextBox();
+            this.textBoxExposureTime = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label46 = new System.Windows.Forms.Label();
-            this.label47 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.comboBoxPanelInterface = new System.Windows.Forms.ComboBox();
-            this.comboBoxTriggerMode = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.panelBottom.SuspendLayout();
-            this.panelCenter.SuspendLayout();
-            this.gbCapSet.SuspendLayout();
+            this.comboBoxWorkMode = new System.Windows.Forms.ComboBox();
+            this.textBoxWaitTime = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.buttonOK = new System.Windows.Forms.Button();
+            this.buttonCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // gbtOK
-            // 
-            this.gbtOK.Location = new System.Drawing.Point(396, 5);
-            this.gbtOK.TabIndex = 7;
-            // 
-            // gbtCancel
-            // 
-            this.gbtCancel.Location = new System.Drawing.Point(446, 5);
-            this.gbtCancel.TabIndex = 8;
-            // 
-            // panelBottom
-            // 
-            this.panelBottom.Location = new System.Drawing.Point(0, 316);
-            this.panelBottom.Size = new System.Drawing.Size(502, 42);
-            // 
-            // label1
-            // 
-            this.label1.Size = new System.Drawing.Size(502, 2);
-            // 
-            // panelProgress
-            // 
-            this.panelProgress.Size = new System.Drawing.Size(165, 40);
-            // 
-            // panelCenter
-            // 
-            this.panelCenter.Controls.Add(this.gbCapSet);
-            this.panelCenter.Size = new System.Drawing.Size(502, 316);
             // 
             // Button1
             // 
             this.Button1.BackColor = System.Drawing.Color.Transparent;
-            this.Button1.ButtonText = null;
-            this.Button1.Hint = "";
             this.Button1.Location = new System.Drawing.Point(0, 0);
             this.Button1.Name = "Button1";
             this.Button1.Size = new System.Drawing.Size(100, 32);
             this.Button1.TabIndex = 0;
+            this.Button1.UseVisualStyleBackColor = false;
             // 
             // btn_Close1
             // 
             this.btn_Close1.BackColor = System.Drawing.Color.Transparent;
-            this.btn_Close1.ButtonText = null;
-            this.btn_Close1.Hint = "";
             this.btn_Close1.Location = new System.Drawing.Point(0, 0);
             this.btn_Close1.Name = "btn_Close1";
             this.btn_Close1.Size = new System.Drawing.Size(100, 32);
             this.btn_Close1.TabIndex = 0;
+            this.btn_Close1.UseVisualStyleBackColor = false;
             // 
             // panel1
             // 
@@ -108,216 +70,143 @@
             this.panel1.Size = new System.Drawing.Size(324, 1);
             this.panel1.TabIndex = 157;
             // 
-            // gbCapSet
+            // textBoxDelayTime
             // 
-            this.gbCapSet.Controls.Add(this.comboBoxTriggerMode);
-            this.gbCapSet.Controls.Add(this.label4);
-            this.gbCapSet.Controls.Add(this.comboBoxPanelInterface);
-            this.gbCapSet.Controls.Add(this.label2);
-            this.gbCapSet.Controls.Add(this.comboBoxBinningMode);
-            this.gbCapSet.Controls.Add(this.label3);
-            this.gbCapSet.Controls.Add(this.comboBoxGainMode);
-            this.gbCapSet.Controls.Add(this.label14);
-            this.gbCapSet.Controls.Add(this.textBoxFrameCount);
-            this.gbCapSet.Controls.Add(this.textBoxFrameDelay);
-            this.gbCapSet.Controls.Add(this.textIntegrationTime);
-            this.gbCapSet.Controls.Add(this.label5);
-            this.gbCapSet.Controls.Add(this.label46);
-            this.gbCapSet.Controls.Add(this.label47);
-            this.gbCapSet.Location = new System.Drawing.Point(2, 7);
-            this.gbCapSet.Name = "gbCapSet";
-            this.gbCapSet.Size = new System.Drawing.Size(497, 299);
-            this.gbCapSet.TabIndex = 160;
-            this.gbCapSet.TabStop = false;
-            this.gbCapSet.Text = "Capture Setting";
+            this.textBoxDelayTime.ForeColor = System.Drawing.Color.Blue;
+            this.textBoxDelayTime.Location = new System.Drawing.Point(194, 126);
+            this.textBoxDelayTime.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.textBoxDelayTime.Name = "textBoxDelayTime";
+            this.textBoxDelayTime.Size = new System.Drawing.Size(192, 27);
+            this.textBoxDelayTime.TabIndex = 218;
             // 
-            // comboBoxBinningMode
+            // textBoxExposureTime
             // 
-            this.comboBoxBinningMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxBinningMode.ForeColor = System.Drawing.Color.Blue;
-            this.comboBoxBinningMode.FormattingEnabled = true;
-            this.comboBoxBinningMode.Items.AddRange(new object[] {
-            "Binning 1(default)",
-            "Binning 2(x= x/2, y= y/2)"});
-            this.comboBoxBinningMode.Location = new System.Drawing.Point(262, 177);
-            this.comboBoxBinningMode.Name = "comboBoxBinningMode";
-            this.comboBoxBinningMode.Size = new System.Drawing.Size(216, 29);
-            this.comboBoxBinningMode.TabIndex = 207;
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(17, 181);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(130, 25);
-            this.label3.TabIndex = 208;
-            this.label3.Text = "Binning Mode";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // comboBoxGainMode
-            // 
-            this.comboBoxGainMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxGainMode.ForeColor = System.Drawing.Color.Blue;
-            this.comboBoxGainMode.FormattingEnabled = true;
-            this.comboBoxGainMode.Items.AddRange(new object[] {
-            "0.25pF(200μm only)",
-            "0.5 pF",
-            "1 pF",
-            "2 pF",
-            "4 pF",
-            "8 pF"});
-            this.comboBoxGainMode.Location = new System.Drawing.Point(262, 139);
-            this.comboBoxGainMode.Name = "comboBoxGainMode";
-            this.comboBoxGainMode.Size = new System.Drawing.Size(216, 29);
-            this.comboBoxGainMode.TabIndex = 205;
-            // 
-            // label14
-            // 
-            this.label14.Location = new System.Drawing.Point(17, 145);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(130, 25);
-            this.label14.TabIndex = 206;
-            this.label14.Text = "Gain Mode";
-            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // textBoxFrameCount
-            // 
-            this.textBoxFrameCount.DigitMaxValue = 2.147484E+09F;
-            this.textBoxFrameCount.DigitMinValue = 0F;
-            this.textBoxFrameCount.ForeColor = System.Drawing.Color.Blue;
-            this.textBoxFrameCount.Location = new System.Drawing.Point(262, 28);
-            this.textBoxFrameCount.Masked = AMRT.Mask.Digit;
-            this.textBoxFrameCount.Name = "textBoxFrameCount";
-            this.textBoxFrameCount.Size = new System.Drawing.Size(216, 28);
-            this.textBoxFrameCount.TabIndex = 12;
-            // 
-            // textBoxFrameDelay
-            // 
-            this.textBoxFrameDelay.DigitMaxValue = 2.147484E+09F;
-            this.textBoxFrameDelay.DigitMinValue = 0F;
-            this.textBoxFrameDelay.ForeColor = System.Drawing.Color.Blue;
-            this.textBoxFrameDelay.Location = new System.Drawing.Point(262, 102);
-            this.textBoxFrameDelay.Masked = AMRT.Mask.Digit;
-            this.textBoxFrameDelay.Name = "textBoxFrameDelay";
-            this.textBoxFrameDelay.Size = new System.Drawing.Size(216, 28);
-            this.textBoxFrameDelay.TabIndex = 11;
-            // 
-            // textIntegrationTime
-            // 
-            this.textIntegrationTime.DigitMaxValue = 2.147484E+09F;
-            this.textIntegrationTime.DigitMinValue = 0F;
-            this.textIntegrationTime.ForeColor = System.Drawing.Color.Blue;
-            this.textIntegrationTime.Location = new System.Drawing.Point(262, 65);
-            this.textIntegrationTime.Masked = AMRT.Mask.Digit;
-            this.textIntegrationTime.Name = "textIntegrationTime";
-            this.textIntegrationTime.Size = new System.Drawing.Size(216, 28);
-            this.textIntegrationTime.TabIndex = 9;
+            this.textBoxExposureTime.ForeColor = System.Drawing.Color.Blue;
+            this.textBoxExposureTime.Location = new System.Drawing.Point(194, 80);
+            this.textBoxExposureTime.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.textBoxExposureTime.Name = "textBoxExposureTime";
+            this.textBoxExposureTime.Size = new System.Drawing.Size(192, 27);
+            this.textBoxExposureTime.TabIndex = 217;
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(17, 67);
+            this.label5.Location = new System.Drawing.Point(30, 85);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(215, 28);
-            this.label5.TabIndex = 143;
-            this.label5.Text = "Integration Time(ms)";
+            this.label5.Size = new System.Drawing.Size(144, 18);
+            this.label5.TabIndex = 222;
+            this.label5.Text = "Exposure Time(ms)";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label46
             // 
-            this.label46.Location = new System.Drawing.Point(17, 106);
+            this.label46.Location = new System.Drawing.Point(30, 131);
             this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(215, 28);
-            this.label46.TabIndex = 133;
-            this.label46.Text = "Frame Delay Time(ms)";
+            this.label46.Size = new System.Drawing.Size(144, 18);
+            this.label46.TabIndex = 220;
+            this.label46.Text = "Delay Time(ms)";
             this.label46.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label47
-            // 
-            this.label47.Location = new System.Drawing.Point(17, 28);
-            this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(215, 28);
-            this.label47.TabIndex = 135;
-            this.label47.Text = "Capture Frame Count";
-            this.label47.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(17, 217);
+            this.label2.Location = new System.Drawing.Point(30, 36);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(239, 25);
-            this.label2.TabIndex = 214;
-            this.label2.Text = "Flat Panel Detector Interface";
+            this.label2.Size = new System.Drawing.Size(126, 18);
+            this.label2.TabIndex = 228;
+            this.label2.Text = "Work Mode";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // comboBoxPanelInterface
             // 
-            this.comboBoxPanelInterface.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxPanelInterface.ForeColor = System.Drawing.Color.Blue;
-            this.comboBoxPanelInterface.FormattingEnabled = true;
-            this.comboBoxPanelInterface.Items.AddRange(new object[] {
-            "Frame Grabber",
-            "Network"});
-            this.comboBoxPanelInterface.Location = new System.Drawing.Point(262, 215);
-            this.comboBoxPanelInterface.Name = "comboBoxPanelInterface";
-            this.comboBoxPanelInterface.Size = new System.Drawing.Size(216, 29);
-            this.comboBoxPanelInterface.TabIndex = 213;
+            this.comboBoxWorkMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxWorkMode.ForeColor = System.Drawing.Color.Blue;
+            this.comboBoxWorkMode.FormattingEnabled = true;
+            this.comboBoxWorkMode.Items.AddRange(new object[] {
+            "2688",
+            "1408",
+            "704"});
+            this.comboBoxWorkMode.Location = new System.Drawing.Point(194, 31);
+            this.comboBoxWorkMode.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.comboBoxWorkMode.Name = "comboBoxPanelInterface";
+            this.comboBoxWorkMode.Size = new System.Drawing.Size(192, 30);
+            this.comboBoxWorkMode.TabIndex = 227;
             // 
-            // comboBoxTriggerMode
+            // textBoxWaitTime
             // 
-            this.comboBoxTriggerMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxTriggerMode.ForeColor = System.Drawing.Color.Blue;
-            this.comboBoxTriggerMode.FormattingEnabled = true;
-            this.comboBoxTriggerMode.Items.AddRange(new object[] {
-            "Frame-wise",
-            "Data Delivered on Demand"});
-            this.comboBoxTriggerMode.Location = new System.Drawing.Point(263, 257);
-            this.comboBoxTriggerMode.Name = "comboBoxTriggerMode";
-            this.comboBoxTriggerMode.Size = new System.Drawing.Size(216, 29);
-            this.comboBoxTriggerMode.TabIndex = 215;
+            this.textBoxWaitTime.ForeColor = System.Drawing.Color.Blue;
+            this.textBoxWaitTime.Location = new System.Drawing.Point(194, 172);
+            this.textBoxWaitTime.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.textBoxWaitTime.Name = "textBoxWaitTime";
+            this.textBoxWaitTime.Size = new System.Drawing.Size(192, 27);
+            this.textBoxWaitTime.TabIndex = 229;
             // 
-            // label4
+            // label1
             // 
-            this.label4.Location = new System.Drawing.Point(18, 259);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(239, 25);
-            this.label4.TabIndex = 216;
-            this.label4.Text = "Trigger Mode";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label1.Location = new System.Drawing.Point(30, 177);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(144, 18);
+            this.label1.TabIndex = 230;
+            this.label1.Text = "Wait Time(ms)";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // buttonOK
+            // 
+            this.buttonOK.Location = new System.Drawing.Point(194, 232);
+            this.buttonOK.Name = "buttonOK";
+            this.buttonOK.Size = new System.Drawing.Size(75, 43);
+            this.buttonOK.TabIndex = 231;
+            this.buttonOK.Text = "OK";
+            this.buttonOK.UseVisualStyleBackColor = true;
+            this.buttonOK.Click += new System.EventHandler(this.btnOK_Click);
+            // 
+            // buttonCancel
+            // 
+            this.buttonCancel.Location = new System.Drawing.Point(311, 232);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(75, 43);
+            this.buttonCancel.TabIndex = 232;
+            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // CaptureParameterSetting
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.ClientSize = new System.Drawing.Size(433, 287);
+            this.Controls.Add(this.buttonCancel);
+            this.Controls.Add(this.buttonOK);
+            this.Controls.Add(this.textBoxWaitTime);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.comboBoxWorkMode);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.textBoxDelayTime);
+            this.Controls.Add(this.textBoxExposureTime);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label46);
+            this.Font = new System.Drawing.Font("Arial Narrow", 13F);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "CaptureParameterSetting";
-            this.Size = new System.Drawing.Size(502, 358);
             this.Load += new System.EventHandler(this.CaptureParameterSetting_Load);
-            this.panelBottom.ResumeLayout(false);
-            this.panelCenter.ResumeLayout(false);
-            this.gbCapSet.ResumeLayout(false);
-            this.gbCapSet.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private GraphicButton Button1;
-        private GraphicButton btn_Close1;
+        private System.Windows.Forms.Button Button1;
+        private System.Windows.Forms.Button btn_Close1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.GroupBox gbCapSet;
-        private System.Windows.Forms.Label label46;
-        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.TextBox textBoxDelayTime;
+        private System.Windows.Forms.TextBox textBoxExposureTime;
         private System.Windows.Forms.Label label5;
-        private MaskedTextBox textIntegrationTime;
-        private MaskedTextBox textBoxFrameCount;
-        private MaskedTextBox textBoxFrameDelay;
-        private System.Windows.Forms.ComboBox comboBoxBinningMode;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox comboBoxGainMode;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.ComboBox comboBoxTriggerMode;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox comboBoxPanelInterface;
+        private System.Windows.Forms.Label label46;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox comboBoxWorkMode;
+        private System.Windows.Forms.TextBox textBoxWaitTime;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button buttonOK;
+        private System.Windows.Forms.Button buttonCancel;
     }
 }

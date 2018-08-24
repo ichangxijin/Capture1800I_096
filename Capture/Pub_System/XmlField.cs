@@ -11,6 +11,7 @@ namespace ImageCapturing
         public static string CaptureFrameCount = "CaptureFrameCount";
         public static string FrameDelayTime = "FrameDelayTime";
         public static string GainMode = "GainMode";
+        public static string KZCheckMode = "KZCheckMode";
         public static string BinningMode = "BinningMode";
         public static string ImageCorrection = "ImageCorrection";
         public static string LinkPanel = "LinkPanel";           // 是否连接Panel

@@ -99,7 +99,7 @@ namespace ImageCapturing
         {
             if (ImgCapture.WorkStatus)
             {
-                ImgCapture.Cancel();
+                ImgCapture.Stop();
                 Application.DoEvents();
             }
         }
@@ -352,7 +352,7 @@ namespace ImageCapturing
                 TriggerNumber = 0;
                 CaptureNumber = 0;
 
-                (ImgCapture as Capture1800I_096Static).acqImageNuber = int.Parse(textBox1.Text);
+                ImgCapture.acqImageNuber = int.Parse(textBox1.Text);
 
                 ImgCapture.Start();
             }
@@ -456,6 +456,20 @@ namespace ImageCapturing
             }
             TriggerSettingForm frm = new TriggerSettingForm(trigger);
             frm.Show();
+        }
+
+        private void buttonCapturePara_Click(object sender, EventArgs e)
+        {
+            using (CaptureParameterSetting frm = new CaptureParameterSetting())
+            {
+
+                DialogResult dir = frm.ShowDialog(this);
+                if (dir == DialogResult.OK)
+                {
+                    ImgCapture.ReadCaptureConfig();
+                    ImgCapture.RefreshPanelSettings();
+                }
+            }
         }
 
      }
