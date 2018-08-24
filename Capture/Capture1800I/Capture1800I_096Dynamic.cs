@@ -10,7 +10,7 @@ using System.Text;
 
 namespace ImageCapturing
 {
-    public unsafe class Capture1800I_096 : CaptureBase
+    public unsafe class Capture1800I_096Dynamic : CaptureBase
     {
         private CareRayInterface.DetectorInfo detectorInfo = new CareRayInterface.DetectorInfo();
         private CareRayInterface.StatusInfo statusInfo = new CareRayInterface.StatusInfo();
@@ -275,7 +275,7 @@ namespace ImageCapturing
         }
 
 
-        public Capture1800I_096()
+        public Capture1800I_096Dynamic()
             : base()
         {
             //是否后台监测Panel网络连接
