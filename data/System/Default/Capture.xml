@@ -8,30 +8,97 @@
             <xs:complexType>
               <xs:attribute name="Option" type="xs:string" />
               <xs:attribute name="Value" type="xs:string" />
-              <xs:attribute name="Default_Value" type="xs:string" />
+              <xs:attribute name="Details" type="xs:string" />
             </xs:complexType>
           </xs:element>
         </xs:choice>
       </xs:complexType>
     </xs:element>
   </xs:schema>
-  <ROW Option="CaptureMode" Value="0" />
-  <ROW Option="IntegrationTime" Value="2000" />
-  <ROW Option="GainMode" Value="5" />
-  <ROW Option="BinningMode"/>
-  <ROW Option="TriggerDelayTime" Value="5000" />
-  <ROW Option="FrameDelayTime" Value="200" />
-  <ROW Option="CaptureFrameCount" Value="1" />
-  <ROW Option="TriggerPort" Value="NONE" />
-  <ROW Option="Angle" Value="0" />
-  <ROW Option="SetupHeight" Value="1200" />
-  <ROW Option="SAD" Value="1000" />
-  <ROW Option="PhysicsWidth" Value="410" />
-  <ROW Option="PhysicsHeight" Value="410" />
-  <ROW Option="ShowROI" Value="F" />
-  <ROW Option="OverlayValue" Value="0.2" />
-  <ROW Option="ShowBeamButton" Value = "F"/>
-  <ROW Option="LinkPanel" />
-  <ROW Option="SimImagePanel" />
-  <ROW Option="ConfigForXinHua" Value = "F"/>
- </NewDataSet>
+  <ROW Option="CaptureMode" Value="5" Details="Capture mode. Sequence = 0;  DoubleExposure = 1;&#xD;&#xA;Continuous = 2; AverageWithGainSequence = 3;&#xD;&#xA;Average = 4;Single = 5;Integrated=6." />
+  <ROW Option="IntegrationTime" Value="2000" Details="Unit ms.Acquiring 1 frame image time. only for PKI panel." />
+  <ROW Option="GainMode" Value="5" Details="Perkin Elmer 1622 gain mode.&#xD;&#xA;0 --- 0.25pF(1621 only); 1 --- 0.5pF; 2 --- 1pF; 3 --- 2pF;  4 --- 4pF;  5 --- 8pF." />
+  <ROW Option="BinningMode" Value="2" Details="Perkin Elemer 1622 binning mode.&#xD;&#xA;1 means no binning ;2 means 2 x 2 binning." />
+  <ROW Option="TriggerDelayTime" Value="5000" Details="Unit ms.Software trigger beam on delay time." />
+  <ROW Option="CaptureFrameCount" Value="1" Details="Capture frame number when capture mode is sequence." />
+  <ROW Option="TriggerPort" Value="NONE" Details="Software Trigger COM port set." />
+  <ROW Option="SAD" Value="1000" Details="Unit mm. " />
+  <ROW Option="PhysicsWidth" Value="433.00" Details="Unit mm.Panel width." />
+  <ROW Option="PhysicsHeight" Value="433.00" Details="Unit mm.Panel height." />
+  <ROW Option="OverlayRatio" Value="0.2" Details="Fusion image ratio when using double exposure mode. ratio is treatment image ratio." />
+  <ROW Option="LinkPanel" Value="T" Details="Set link panel manually.  T --- can link panel, F --- simulate panel capture image." />
+  <ROW Option="Overlay_FirstTreatment" Value="T" Details="First image is treatment field when overlay two images using double exposure." />
+  <ROW Option="Image_Converse" Value="T" Details="Invert image color LUT." />
+  <ROW Option="ImageEnhance" Value="T" Details="'T' means quick enhance image." />
+  <ROW Option="HWCaptureTime" Value="19000" Details="Unit ms.1622 restart preparing to wait beam interval time on when using hardware trigger. default 19s." />
+  <ROW Option="OffsetCalibrationNumber" Value="5" Details="Offset calibration number. only for PKI panel." />
+  <ROW Option="CaptureIntegratedMode" Value="T" Details="'T' means Integrated mode can be seen in capture window." />
+  <ROW Option="PanelInterface" Value="1800I_0.96" Details="Panel model. " />
+  <ROW Option="1800I_ExposureTime" Value="2000" Details="1800I exposure time, default 2000ms." />
+  <ROW Option="1800I_ExposureDelay" Value="100" Details="1800I exposure delay time, defult 100ms. user need not set." />
+  <ROW Option="1800I_ExposureWait" Value="5" Details="1800I exposure wait time, default 5ms." />
+  <ROW Option="ImageCorrection" Value="3" Details="1622 gain correction setting. &#xD;&#xA;case 1 : None(0) --- no gain correction; &#xD;&#xA;case 2 : Offset(1) --- offset correction; &#xD;&#xA;case 3 : Gain(2) --- offset + gain + pixel&#xD;&#xA;case 4 : GainSequence(3) --- offset +  gainsequence + pixel" />
+  <ROW Option="PanelMacAddress" Value="" Details="Panel Mac address when link 1622, user need not set." />
+  <ROW Option="SignalSourceID" Value="1" Details="Software Trigger channel ID." />
+  <ROW Option="SignalTimeout" Value="0" Details="Unit ms.Software Trigger timeout" />
+  <ROW Option="SignalInterval" Value="20" Details="Unit ms. Software trigger Beam on disappearing interval time." />
+  <ROW Option="SignalFeedInterval" Value="100" Details="Unit ms. Software trigger signal feed back interval time." />
+  <ROW Option="TriggerMode" Value="3" Details="Trigger mode selection only for PKI panel.&#xD;&#xA;HIS_SYNCMODE_SOFT_TRIGGER = 1,&#xD;&#xA;HIS_SYNCMODE_INTERNAL_TIMER = 2,&#xD;&#xA;HIS_SYNCMODE_EXTERNAL_TRIGGER = 3,&#xD;&#xA;HIS_SYNCMODE_FREE_RUNNING = 4" />
+  <ROW Option="TriggerModeDetail" Value="3" Details="Tigger mode selection only for PKI panel.&#xD;&#xA;DDD = 0,  Data Delivered on Demand&#xD;&#xA;DDD_withoutClearence = 1,  Data Delivered on Demand without clearance scan&#xD;&#xA;Linewise = 2,  (Start / Stop Trigger)&#xD;&#xA;Framewise = 3  (default)" />
+  <ROW Option="OffsetFile" Value="" Details="Offset file path,which used by PKI gain calibration algorithm." />
+  <ROW Option="GainFile" Value="" Details="Gain file path,which used by PKI gain calibration algorithm.do not use at present." />
+  <ROW Option="GainSeqFile" Value="" Details="Gain squence file path,which used by PKI gain calibration algorithm." />
+  <ROW Option="PixelMapFile" Value="" Details="Pixel map file path,which used by PKI gain calibration algorithm." />
+  <ROW Option="AutoStopCaptureImage" Value="F" Details="auto stop capturing image when continuous mode." />
+  <ROW Option="AutoStopCapture_min_threshold" Value="1000" Details="auto stop capturing image must arrive min value threshold secondly." />
+  <ROW Option="AutoStopCapture_max_threshold" Value="10000" Details="auto stop capturing image must arrive max value threshold firstly." />
+  <ROW Option="AutoImageCalibrationAnalysisCase" Value="11110" Details="case 1:Exposure inhomogeneous/exposure prematurely/exposure too late,some rows  gray value of front larger than rows back 30% or above.&#xD;&#xA;case 2:Total gray value is too low,its threshold is 15000.&#xD;&#xA;case 3:Gray value exists overflow,it will be fail if 1% gray value is 65536.&#xD;&#xA;case 4:Exists analogy pluse signal.&#xD;&#xA;case 5:Exists occlusions on image which is think as  between  50%~80% of max gray value." />
+  <ROW Option="1800I_DynamicOffsetCalibration" Value="F" Details="'T' means do dynamic offset calibration on capture pop window." />
+  <ROW Option="LinkMenthod1622" Value="" Details="'1' link panel by IP.other case, link panel by ID then IP. only for 1622 panel." />
+  <ROW Option="1800I_ExposureSycMode" Value="6" Details="1800I panel sync mode.&#xD;&#xA;UNDEF_SYNC(0) --- undefined sync mode.&#xD;&#xA;EXT_SYNC(1) --- external sync mode (exist sync cable).&#xD;&#xA;SOFT_SYNC(2) --- software sync mode.&#xD;&#xA;AUTO_SYNC(3) --- auto sync mode.&#xD;&#xA;MANUAL_SYNC(4) --- manual sync mode.&#xD;&#xA;SCAN_SYNC(5) --- ?&#xD;&#xA;AED_SYNC(6) --- exrernal sync mode only for linatech." />
+  <ROW Option="LagEliminationModel" Value="None" Details="Arifact eliminate model seletion in capture pop window." />
+  <ROW Option="lag_imagenum_for_modeling" Value="100" Details="Set lag frame number after exposure, when do artifact eliminate model." />
+  <ROW Option="OpenfilePath" Value="" Details="User habits.system auto record. save open file folder." />
+  <ROW Option="SaveFilePath" Value="" Details="User habits.system auto record. save his file folder." />
+  <ROW Option="DefectivePixel_DetectionRegion" Value="4" Details="Unit pixel. Set detection region which devide total image, when do Pixel correction calibration in capture calibration window. Default 4." />
+  <ROW Option="DefectivePixel_Coefficient" Value="0.9" Details="Set defective pixel threshold ratio, when do Pixel correction calibration in capture calibration window. Default 0.9." />
+  <ROW Option="CaptureAverageMode" Value="2" Details="Show average mode in capture window.&#xD;&#xA;0, do not show average mode.&#xD;&#xA;1,PKI itsself average mode with gain correction.&#xD;&#xA;2,sequence capture image and integrate images." />
+  <ROW Option="DynamicOffsetCalibration" Value="T" Details="'T' means do dynamic offset calibration on capture pop window for PKI." /> 
+  <ROW Option="CaptureDate" Value="" Details="Automatic system generation;" />
+  <ROW Option="TodayImageIndex" Value="0" Details="Automatic system generation; &#xD;&#xA;Acquire image index today,which need regenerating according to 'CaprueDate'. " />
+  <ROW Option="1800I_FileHeadSize" Value="65536" Details="1800I receive image head lenght,default 65536." />
+  <ROW Option="Eable1800IGainAlgorithm" Value="T" Details="Acquire image with gain or not." />
+  <ROW Option="GainCalWindow_Enable1800IGainAlgorithm" Value="F" Details="Acquire image with gain or not,on gain calibration window." />
+  <ROW Option="TimingMode" Value="0" Details="Timing0 = 0;Timing1 = 1;Timing2 = 2;Timing3 = 3;&#xD;&#xA;Timing4 = 4;Timing5 = 5;Timing6 = 6;Timing7 = 7." />
+  <ROW Option="1800I_DoFixedGainCalibration" Value="F" Details="1800I(0.96 Rad mode) gain calibration function; 'T' is CR_execute_linear_cal; 'F' is CR_execute_portable_cal." />
+  <ROW Option="1800I_OffsetExposureTime" Value="1" Details="1800I(0.96 fluoro mode) dynamic offset calibration integration time." />
+  <ROW Option="HardwareTriggerComPortName" Value="None" Details="Com Port name" />
+  <ROW Option="HardwareTriggerMode" Value="1" Details="hardware trigger mode; 0 manual setting; 1 static capturing mode;2 dynamic capturing mode." />
+  <ROW Option="HardwareTriggerDelayTimeSW1" Value="0" Details="set hardware trigger beam on delay time." />
+  <ROW Option="HardwareTriggerFrameTimeSW2" Value="3" Details="hardware trigger frame time(SW2) defaut 300ms." />
+  <ROW Option="HardwareTriggerFrameTimeSW3" Value="0" Details="hardware trigger frame time(SW3) defaut 0ms." />
+  <ROW Option="HardwareTriggerFrameNumber" Value="1" Details="hardware trigger frame number." />
+  <ROW Option="HardwareTriggerShowSimulateButton" Value="F" Details="show hardware trigger button which can simulate signal on capture window." />
+  <ROW Option="PanelCheckThreshold" Value="1.0" Details="Panel Check Threshold" />
+  <ROW Option="GainCalWindow_1800ICaptureMode" Value="DoubleExposure" Details="1800I panel capture mode" />
+  <ROW Option="CaptureWindow_ShowBeamMU" Value="F" Details="Show Beam MU info in capture module window." />
+  <ROW Option="FrameCount_DiscardDarkImage_BeforeCapture" Value="1" Details="Discard dark frame number before capture image." />
+  <ROW Option="FrameCount_DiscardDarkImage_AfterCapture" Value="3" Details="Discard dark frame number after capture image." />
+  <ROW Option="FrameCount_DiscardDarkImage_EnterCaptureWindow" Value="3" Details="Discard dark frame number when entering capture window." />
+  <ROW Option="1800I_ExposureTime_DiscardDarkImage" Value="1" Details="1800I exposure time(discard dark image),default 500ms." />
+  <ROW Option="1800I_ExposureDelay_DiscardDarkImage" Value="1" Details="1800I exposure delay time(discard dark image), defult 100ms." />
+  <ROW Option="1800I_ExposureWait_DiscardDarkImage" Value="1" Details="1800I exposure wait time(discard dark image), default 5ms." />
+  <ROW Option="1800I_TriggerMode" Value="External" />
+  <ROW Option="KZCheckMode" Value="16" />
+  <ROW Option="DiscardDarkImage_PKIContinuousMode" Value="T" Details="Discard dark image when 1622/1640 caputure image." />
+  <ROW Option="DiscardDarkImage_Threshold_PKIContinuousMode" Value="500" Details="Discard dark image threshold when 1622/1640 caputure image." />
+  <ROW Option="FilterGoodImage_Threshold" Value="18000" Details="Filter good image  threshold when 1622/1640 caputure image." />
+  <ROW Option="Enable1800IGainAlgorithm" Value="T" Details="Acquire image with gain or not,on capture window." />
+  <ROW Option="MonitorPanelNetwork_Background" Value="T" Details="Monitor panel link status after link panel successfully." />
+  <ROW Option="FilterCouchGridNoise" Value="F" Details="'T' means filter image couch grid noise." />
+  <ROW Option="1800I_GainValue" Value="7" Details="1800I Gain Value." />
+  <ROW Option="1800I_RawFileWidth" Value="2816" Details="Load image width with Raw format" />
+  <ROW Option="1800I_RawFileHeight" Value="2816" Details="Load image height with Raw format" />
+  <ROW Option="CutImage2816to2688" Value="T" Details="Convert 2816 to 2688 cut image 64 pixel every side." />
+  <ROW Option="NeedReplceImageCapturingDll" Value="F" Details="'T' --- Replace panel SDK according to firmware version when start IVS." />
+</NewDataSet>

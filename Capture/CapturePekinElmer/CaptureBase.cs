@@ -4,6 +4,7 @@ using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Net.NetworkInformation;
 
 namespace ImageCapturing
 {
@@ -13,7 +14,8 @@ namespace ImageCapturing
         NONE,          //不连接硬件
         LINK_SUCCESS,  //连接成功
         LINK_FAIL,     //连接失败
-        LINKING        //正在连接中
+        LINKING,       //正在连接中
+        NONETWORK        //正在连接中
     }
 
 
@@ -66,7 +68,7 @@ namespace ImageCapturing
         /// <summary>
         /// 序列、循环抓图在内存中开辟的帧数
         /// </summary>
-        public int FrameCount = 1;
+        public int SeqFrameCount = 1;
 
         protected IntPtr HostHandle = IntPtr.Zero;
         protected IntPtr MainHandle = IntPtr.Zero;
@@ -99,7 +101,7 @@ namespace ImageCapturing
                 //}
                 //else
                 //{
-                    capture = new Capture1800I_096Static();
+                    capture = new Capture1800I_096();
                 //}
             }
             else
@@ -229,11 +231,11 @@ namespace ImageCapturing
 
         protected void  ReadSetupConfig()
         {
-            if (!int.TryParse(CapturePub.readCaptrueValue(XmlField.CaptureFrameCount), out FrameCount))
+            if (!int.TryParse(CapturePub.readCaptrueValue(XmlField.CaptureFrameCount), out SeqFrameCount))
             {
-                FrameCount = 1;
+                SeqFrameCount = 1;
             }
-            FrameCount = 1;
+            SeqFrameCount = 1;
 
             if (!int.TryParse(CapturePub.readCaptrueValue("SetupAngle"), out SetupAngle))
             {
@@ -397,6 +399,39 @@ namespace ImageCapturing
             bm.UnlockBits(bmData);
 
             return data;
+        }
+
+        /// <summary>
+        /// 用于检查IP地址是否可以使用TCP/IP协议访问（Ping命令），true-ping成功，false-ping失败
+        /// </summary>
+        /// <param name="strIpOrDName"></param>
+        /// <returns></returns>
+        protected static bool PingIpOrDomainName(string strIpOrDName)
+        {
+            try
+            {
+                Ping objPingSender = new Ping();
+                PingOptions objPinOptions = new PingOptions();
+                objPinOptions.DontFragment = true;
+                string data = "";
+                byte[] buffer = Encoding.UTF8.GetBytes(data);
+                int intTimeout = 120;
+                PingReply objPinReply = objPingSender.Send(strIpOrDName, intTimeout, buffer, objPinOptions);
+
+                bool v = objPinReply.Status == IPStatus.Success;
+
+                if (!v)
+                {
+                    Console.WriteLine(string.Format("ping {0} {1}", new object[] { strIpOrDName, objPinReply.Status.ToString() }));
+                }
+
+                return v;
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine(Ex.Message);
+                return false;
+            }
         }
     }
 }

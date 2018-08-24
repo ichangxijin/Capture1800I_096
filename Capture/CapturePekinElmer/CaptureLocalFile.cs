@@ -177,15 +177,15 @@ namespace ImageCapturing
             if (dlg.ShowDialog() == DialogResult.OK)
             {                
                 files = dlg.FileNames;
-                FrameCount = files.Length;
+                SeqFrameCount = files.Length;
             }
             if (files != null && files.Length > 0)
             {
                 FileInfo fi = new FileInfo(files[0]);
                 CapturePub.saveCaptrueValue(XmlField.OpenFilePath, fi.DirectoryName);
                 int msgID = GenerateWinMessage("Loading files...");
-                Kernel32Interface.SendMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS,msgID , FrameCount);
-                for (int i = 0; i < FrameCount; i++)
+                Kernel32Interface.SendMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS,msgID , SeqFrameCount);
+                for (int i = 0; i < SeqFrameCount; i++)
                 {
                     ReadFile(files[i]);
                     Kernel32Interface.SendMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, -1, 1);

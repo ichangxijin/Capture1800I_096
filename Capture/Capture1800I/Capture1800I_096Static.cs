@@ -15,26 +15,20 @@ namespace ImageCapturing
         private CareRayInterface.DetectorInfo detectorInfo = new CareRayInterface.DetectorInfo();
         private CareRayInterface.StatusInfo statusInfo = new CareRayInterface.StatusInfo();
         private CareRayInterface.ModeInfo modeInfo = new CareRayInterface.ModeInfo();
-        private CareRayInterface.ExtendModeInfo extendModeInfo = new CareRayInterface.ExtendModeInfo();
         private CareRayInterface.ExpProgress expProg = new CareRayInterface.ExpProgress();
         private CareRayInterface.ExpProgress calProg = new CareRayInterface.ExpProgress();
-        private CareRayInterface.ConfigInfo configInfo = new CareRayInterface.ConfigInfo();
         private CareRayInterface.UserCorrection userCorrection = new CareRayInterface.UserCorrection();
         private CareRayInterface.FrameAttr obj = new CareRayInterface.FrameAttr();
         private CareRayInterface.CalParams cal_params = new CareRayInterface.CalParams();
+        private CareRayInterface.FpgaReg fpga = new CareRayInterface.FpgaReg();
 
         /// <summary>
-        /// 1800I 当前使用的工作模式；
-        /// </summary>
-        int checkMode = (int)CareRayInterface.CheckMode.MODE_RAD;
-
-        public bool Enable1800IGainAlgorithm = false;
-
-        /// <summary>
-        /// 后台采集线程；
+        /// 执行采集的后台线程
         /// </summary>
         BackgroundWorker BackgroundWorkerCaptureImageData = new BackgroundWorker();
-        string identificationStr = "";
+        /// <summary>
+        /// 存储图像数据的连续内存块
+        /// </summary>
         ushort* pAcqBuffer = (ushort*)IntPtr.Zero;
         /// <summary>
         /// 统计采集到的亮场图像数量；
@@ -45,6 +39,10 @@ namespace ImageCapturing
         /// </summary>
         public int acqImageNuber = 100;
         /// <summary>
+        /// 执行后台采集线程的唯一标识符号
+        /// </summary>
+        string identificationStr = "";
+        /// <summary>
         /// 连接Panel的线程；
         /// </summary>
         Thread LinkPanelThread = null;
@@ -52,12 +50,71 @@ namespace ImageCapturing
         /// 连接Panel线程使用的同步变量
         /// </summary>
         Mutex LinkPanelMutex = new Mutex();
+        /// <summary>
+        /// 平板探测器的IP
+        /// </summary>
+        string PanelIP = "192.168.68.1";
+        /// <summary>
+        /// 是否后台监测Panel网络连接
+        /// </summary>
+        bool MonitorPanelNetwork_Background = false;
 
-        public Capture1800I_096Static()
-        {
-            LinkPanelThread = new Thread(LinkPanelThreadFun);
-            LinkPanelThread.IsBackground = true;
-        }
+        #region 采集配置相关参数
+        /// <summary>
+        /// 探测器的工作模式
+        /// </summary>
+        CareRayInterface.CheckMode checkMode = CareRayInterface.CheckMode.MODE_RAD;
+        /// <summary>
+        /// Trigger 同步模式
+        /// </summary>
+        CareRayInterface.SyncMode TriggerSyncMode = CareRayInterface.SyncMode.EXT_SYNC;
+        /// <summary>
+        /// Gain值
+        /// </summary>
+        int GainValue = 7;//可以设置为1`7;
+        /// <summary>
+        /// 曝光时间，单位毫秒ms
+        /// </summary>
+        int ExposureTime = 2000;
+        /// <summary>
+        /// 延迟时间，单位毫秒ms
+        /// </summary>
+        int DelayTime = 100;
+        /// <summary>
+        /// 等待时间，单位毫秒ms
+        /// </summary>
+        int WaitTime = 5;
+        /// <summary>
+        /// 1800I Gain算法是否启用
+        /// </summary>
+        public bool Enable1800IGainAlgorithm = true;
+        /// <summary>
+        /// Raw文件的文件头
+        /// </summary>
+        public int RawFileHeadSize = 65536;
+        /// <summary>
+        /// 是否是固定位置校正
+        /// </summary>
+        public bool FixedGainCalibration = false;
+
+        #region 采集之前丢弃本底图像的设置
+
+        /// <summary>
+        /// 曝光时间，单位毫秒ms
+        /// </summary>
+        int ExposureTime_DiscardDarkImage = 1;
+        /// <summary>
+        /// 延迟时间，单位毫秒ms
+        /// </summary>
+        int DelayTime_DiscardDarkImage = 1;
+        /// <summary>
+        /// 等待时间，单位毫秒ms
+        /// </summary>
+        int WaitTime_DiscardDarkImage = 1;
+
+        #endregion
+
+        #endregion
 
         #region 查询Panel状态的函数
 
@@ -102,7 +159,7 @@ namespace ImageCapturing
         int showModeInfo()
         {
             Console.WriteLine("\nCalling CR_get_detector_info:\n");
-            int result = CareRayInterface.CR_get_mode_info(checkMode, ref modeInfo);
+            int result = CareRayInterface.CR_get_mode_info((int)checkMode, ref modeInfo);
             if ((int)KZ_ERROR_TYPE.CR_NO_ERR == result)
             {
                 Console.WriteLine("\t\tModeId={0}\n", modeInfo.modeId);
@@ -116,42 +173,7 @@ namespace ImageCapturing
             return result;
         }
 
-        //Show current mode information
-        int showExtendModeInfo()
-        {
-            Console.WriteLine("\nCalling CR_get_extend_mode_info:\n");
-            int result = CareRayInterface.CR_get_extend_mode_info(checkMode, ref extendModeInfo);
-            if ((int)KZ_ERROR_TYPE.CR_NO_ERR == result)
-            {
-                Console.WriteLine("\t\tModeId={0}\n", extendModeInfo.modeId);
-                Console.WriteLine("\t\tAcqType={0}\n", extendModeInfo.acqType);
-                Console.WriteLine("\t\tImageWidth={0}, ImageHeight={0}\n", extendModeInfo.imageWidth, extendModeInfo.imageHeight);
-                Console.WriteLine("\t\tLinesPerPixel={0}, ColsPerPixel={0}\n", extendModeInfo.linesPerPixel, extendModeInfo.colsPerPixel);
-                Console.WriteLine("\t\tImageSize(in Byte):{0}\n", extendModeInfo.imageSize);
-                Console.WriteLine("\t\tMaxFrameRate:%f\n", extendModeInfo.maxFrameRate);
-                Console.WriteLine("\t\tModeDescription:{0}\n", extendModeInfo.modeDescription);
-                Console.WriteLine("\t\tBitStored:{0}\n", extendModeInfo.bitsStored);
-                Console.WriteLine("\t\tBitAllocated:{0}\n", extendModeInfo.bitsAllocated);
-            }
-            return result;
-        }
-
         #endregion
-
-        protected override void InitParam()
-        {
-            ReadSetupConfig();
-            ReadCaptureConfig();
-            RefreshFixedPanelSettings();
-            AllocAcquireMemory();
-        }
-
-        void ReadCaptureConfig()
-        {
-            checkMode = (int)CareRayInterface.CheckMode.MODE_RAD;
-
-            Enable1800IGainAlgorithm = false;
-        }
 
         /// <summary>
         /// 刷新Panel连接之后固定的配置；
@@ -175,7 +197,7 @@ namespace ImageCapturing
                 result = showDetectorInfo();
                 if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
                 {
-                    Console.WriteLine("Show detector info error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
+                    //showDetectorInfo()有注释
                 }
 
                 //输出探测器状态信息；
@@ -184,7 +206,7 @@ namespace ImageCapturing
                 result = showStatusInfo();
                 if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
                 {
-                    Console.WriteLine("Show status info error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
+                    //showStatusInfo()有注释
                 }
 
                 //输出探测器型号；
@@ -192,7 +214,7 @@ namespace ImageCapturing
                 Console.WriteLine("Detector type:{0}", new object[] { ((CareRayInterface.DetectorType)currentDetectorType).ToString() });
 
                 //设置探测器的工作模式；Rad模式；
-                result = CareRayInterface.CR_set_check_mode(checkMode);
+                result = CareRayInterface.CR_set_check_mode((int)checkMode);
                 if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
                 {
                     Console.WriteLine("Set mode error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
@@ -203,24 +225,6 @@ namespace ImageCapturing
                 {
                     Console.WriteLine("Show mode info error, reason: %s\n", CareRayErrors.CrErrStrList(result));
                 }
-
-                
- 
-                //int KZSynMode = (int)SyncMode.EXT_SYNC;
-                //result = CareRayInterface.CR_set_sync_mode(KZSynMode);
-                //if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result && (int)KZ_ERROR_TYPE.ERR_NO_CONFIGFILE != result)
-                //{
-                //    Console.WriteLine("Set sync mode error, reason: {0}\n " + CareRayErrors.CrErrStrList(result));
-                //}
-
-                //int expTime = 2000;
-                //int delayTime = 100;
-                //int waitTime = 5;
-                //result = CareRayInterface.CR_set_cycle_time(expTime, delayTime, waitTime);
-                //if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
-                //{
-                //    Console.WriteLine("Set cycle time error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
-                //}
 
             }
             catch (System.Exception ex)
@@ -233,7 +237,7 @@ namespace ImageCapturing
             {
                 int result;
                 //设置Gain值；
-                CareRayInterface.FpgaReg fpga = new CareRayInterface.FpgaReg();
+                fpga = new CareRayInterface.FpgaReg();
                 result = CareRayInterface.CR_get_fpga_reg(ref fpga);
                 if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
                 {
@@ -242,17 +246,18 @@ namespace ImageCapturing
 
                 int readoutCntr = fpga.readout_cntr;
                 int gainId = (readoutCntr >> 4) & 0x00000007;
-                Console.WriteLine("Gain ID =" + gainId.ToString());
+                Console.WriteLine("Gain Value read from FPGA =" + gainId);
 
-                gainId = 7;
+                gainId = GainValue;
 
-                Console.WriteLine("Set Gain ID =" + gainId.ToString());
+                Console.WriteLine("Set Gain ID =" + gainId);
+
                 int readout = fpga.readout_cntr;
                 int readoutCntrPrev = (readout & (~(7 << 4))) | (gainId << 4);
                 fpga.readout_cntr = readoutCntrPrev;
-                int prmId = (int)((uint)(&fpga.readout_cntr) - (uint)(&fpga.res1));
-                prmId = 160;
-                result = CareRayInterface.CR_set_detector_iparam(160, readoutCntrPrev);
+                //int prmId = (int)((uint)(&fpga.readout_cntr) - (uint)(&fpga.res1));
+                int prmId = 160;
+                result = CareRayInterface.CR_set_detector_iparam(prmId, readoutCntrPrev);
                 if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
                 {
                     Console.Write("CR_set_detector_iparam error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
@@ -267,7 +272,7 @@ namespace ImageCapturing
 
                 readoutCntr = fpga.readout_cntr;
                 gainId = (readoutCntr >> 4) & 0x00000007;
-                Console.WriteLine("Gain ID after setting =" + gainId.ToString());
+                Console.WriteLine("Gain ID read 2 from FPGA=" + gainId);
 
             }
             catch (System.Exception ex)
@@ -275,6 +280,164 @@ namespace ImageCapturing
                 Console.WriteLine("RefreshFixedPanelSettings()...catch(2)..." + ex.Message);
             }
         }
+
+
+        public Capture1800I_096Static():base()
+        {
+            //是否后台监测Panel网络连接
+            MonitorPanelNetwork_Background = CapturePub.readCaptrueValue(XmlField.MonitorPanelNetwork_Background) == "T";
+            //读取Panel IP地址
+            string config_file = CapturePub.CareRayPath + "Config.ini";
+            PanelIP = CareRayInterface.ReadConfigOptionValue(config_file,"ipAddress");
+
+            LinkPanelThread = new Thread(LinkPanelThreadFun);
+            LinkPanelThread.IsBackground = true;
+        }
+
+
+        protected override void InitParam()
+        {
+            ReadSetupConfig();
+
+            ReadCaptureConfig();
+
+            RefreshFixedPanelSettings();
+
+            AllocAcquireMemory();
+        }
+
+        /// <summary>
+        /// 从本地文件读取采集配置参数
+        /// </summary>
+        void ReadCaptureConfig()
+        {
+            //1,工作模式；
+            checkMode = CareRayInterface.CheckMode.MODE_RAD;
+            //2,采集同步模式；
+            TriggerSyncMode = CareRayInterface.SyncMode.EXT_SYNC;
+            //3,采集曝光时间，单位ms；
+            if (!int.TryParse(CapturePub.readCaptrueValue(XmlField.CareRay_ExposureTime), out ExposureTime))
+            {
+                ExposureTime = 2000;
+                CapturePub.saveCaptrueValue(XmlField.CareRay_ExposureTime, ExposureTime.ToString());
+            }
+            //4,采集延迟时间，单位ms；
+            if (!int.TryParse(CapturePub.readCaptrueValue(XmlField.CareRay_ExposureDelay), out DelayTime))
+            {
+                DelayTime = 100;
+                CapturePub.saveCaptrueValue(XmlField.CareRay_ExposureDelay, DelayTime.ToString());
+            }
+            //5,采集等待时间，单位ms；
+            if (!int.TryParse(CapturePub.readCaptrueValue(XmlField.CareRay_ExposureWait), out WaitTime))
+            {
+                WaitTime = 5;
+                CapturePub.saveCaptrueValue(XmlField.CareRay_ExposureWait, WaitTime.ToString());
+            }
+            //6,是否启用Gain校正算法
+            Enable1800IGainAlgorithm = CapturePub.readCaptrueValue(XmlField.Enable1800IGainAlgorithm) == "T";
+            //7,Sequence采集的帧数
+            if (!int.TryParse(CapturePub.readCaptrueValue(XmlField.CaptureFrameCount), out SeqFrameCount))
+            {
+                SeqFrameCount = 1;
+                CapturePub.saveCaptrueValue(XmlField.CaptureFrameCount, SeqFrameCount.ToString());
+            }
+            //8,是否是固定位置标定方式
+            FixedGainCalibration = CapturePub.readCaptrueValue(XmlField._1800I096Rad_DoFixedGainCalibration) == "T";
+            //9,Gain值
+            if (!int.TryParse(CapturePub.readCaptrueValue(XmlField.CareRay_GainValue), out GainValue))
+            {
+                GainValue = 1;
+                CapturePub.saveCaptrueValue(XmlField.CareRay_GainValue, GainValue.ToString());
+            }
+
+            #region 采集前丢弃本底的设置
+
+            //1,采集曝光时间，单位ms；
+            if (!int.TryParse(CapturePub.readCaptrueValue(XmlField.CareRay_ExposureTime_DiscardDarkImage), out ExposureTime_DiscardDarkImage))
+            {
+                ExposureTime_DiscardDarkImage = 1;
+                CapturePub.saveCaptrueValue(XmlField.CareRay_ExposureTime_DiscardDarkImage, ExposureTime_DiscardDarkImage.ToString());
+            }
+            //2,采集延迟时间，单位ms；
+            if (!int.TryParse(CapturePub.readCaptrueValue(XmlField.CareRay_ExposureDelay_DiscardDarkImage), out DelayTime_DiscardDarkImage))
+            {
+                DelayTime_DiscardDarkImage = 1;
+                CapturePub.saveCaptrueValue(XmlField.CareRay_ExposureDelay_DiscardDarkImage, DelayTime_DiscardDarkImage.ToString());
+            }
+            //3,采集等待时间，单位ms；
+            if (!int.TryParse(CapturePub.readCaptrueValue(XmlField.CareRay_ExposureWait_DiscardDarkImage), out WaitTime_DiscardDarkImage))
+            {
+                WaitTime_DiscardDarkImage = 1;
+                CapturePub.saveCaptrueValue(XmlField.CareRay_ExposureWait_DiscardDarkImage, WaitTime_DiscardDarkImage.ToString());
+            }
+
+            #endregion
+        }
+
+        /// <summary>
+        /// 刷新Panel的设置
+        /// 有对应的积分时间校正文件，设置Gain校正文件是否调用的函数快速返回，不然会设置错误，导致时间很长
+        /// 所以这里设置积分时间，再设置是否调用Gain校正文件
+        /// </summary>
+        void RefreshPanelSettings()
+        {
+            try
+            {
+                int result;
+
+                //1，设置Trigger同步模式
+                result = CareRayInterface.CR_set_sync_mode((int)TriggerSyncMode);
+                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+                {
+                    Console.WriteLine("Set sync mode error, reason: {0}\n " + CareRayErrors.CrErrStrList(result));
+                }
+                //2,设置探测器的曝光时间，延迟时间，等待时间
+                result = CareRayInterface.CR_set_cycle_time(ExposureTime, DelayTime, WaitTime);
+                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+                {
+                    Console.WriteLine("Set cycle time error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
+                }
+                //3，设置输出1800I的Gain校正算法
+                UseCalibrationConfig(Enable1800IGainAlgorithm);
+
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine("RefreshFixedPanelSettings()...catch..." + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 注意：先设置Gain校正文件（存在对应的积分时间校正文件），再设置积分时间
+        /// </summary>
+        void RefreshPanelSettings_DiscardDarkImage()
+        {
+            try
+            {
+                int result;
+
+                //1，设置Trigger同步模式
+                result = CareRayInterface.CR_set_sync_mode((int)TriggerSyncMode);
+                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result )
+                {
+                    Console.WriteLine("Set sync mode error, reason: {0}\n " + CareRayErrors.CrErrStrList(result));
+                }
+                //2，必须有对应积分时间的校正文件，设置才能快速返回
+                UseCalibrationConfig(false);
+                //3,设置探测器的曝光时间，延迟时间，等待时间
+                result = CareRayInterface.CR_set_cycle_time(ExposureTime_DiscardDarkImage, DelayTime_DiscardDarkImage, WaitTime_DiscardDarkImage);
+                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+                {
+                    Console.WriteLine("Set cycle time error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine("RefreshPanelSettings_DiscardDarkImage()...catch..." + ex.Message);
+            }
+        }
+
 
         public override void Start()
         {
@@ -340,32 +503,55 @@ namespace ImageCapturing
             }
         }
 
-        void BackgroundWorkerCaptureImageData_DoWork(object sender, DoWorkEventArgs e)
-        {
-            if (!e.Argument.Equals(identificationStr))
-            {
-                Console.WriteLine("BackgroundWorkerCaptureImageData_DoWork():Thread conflict.");
-                return;
-            }
-            CaptureImageData();
-        }
         
         /// <summary>
-        /// Gain算法参数设置；
+        /// 是否启用Gain校正算法
         /// </summary>
         /// <param name="gain_cal"></param>
         void UseCalibrationConfig(bool gain_cal)
         {
-            Console.WriteLine("UseCalibrationConfig(gain_cal={0})",new object[]{gain_cal});
+            Console.WriteLine("UseCalibrationConfig(gain_cal={0})", new object[] { gain_cal });
 
-            //CareRayInterface.UserCorrection userCorrection = new CareRayInterface.UserCorrection();
+            int result;
+
+            #region 0.96静态模式特有的bug避免模式GainCal== True的时候，检查Gain文件是否存在，如果不存在不设置为True；避免设置耗时很长
+            if (gain_cal)
+            {
+                cal_params = new CareRayInterface.CalParams();//必须重新New，否则报错
+
+                //获取Gain标定文件的路径
+                result = CareRayInterface.CR_get_cal_params(ref cal_params);
+                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+                {
+                    Console.WriteLine("UseCalibrationConfig():CR_get_cal_params error, reason: {0}\n " + CareRayErrors.CrErrStrList(result));
+                }
+                else
+                {
+                    string GainPath = new string(cal_params.gain_image_dir);
+                    int idx = GainPath.IndexOf('\0');
+                    if (idx != -1)
+                    {
+                        GainPath = GainPath.Remove(idx);
+                    }
+
+                    Console.WriteLine("GainPath=" + GainPath);
+
+                    string path = GainPath.TrimEnd('\\') + "\\Fixed-LINEAR-gain" + GainValue + ".raw";
+                    if (!File.Exists(path))
+                    {
+                        gain_cal = false;
+                        Console.WriteLine("0.96 Rad mode Gain correction files do not exist.");
+                    }
+                }
+            }
+            #endregion
             try
             {
                 userCorrection.fixedCorr = gain_cal;
                 userCorrection.non_fixedCorr = false;
                 userCorrection.portableCorr = false;
 
-                int result = CareRayInterface.CR_set_user_correction(ref userCorrection);
+                result = CareRayInterface.CR_set_user_correction(ref userCorrection);
                 if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
                 {
                     Console.WriteLine("CR_set_user_correction error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
@@ -380,117 +566,89 @@ namespace ImageCapturing
             {
                 Console.WriteLine("UseCalibrationConfig()...catch error:" + ex.Message);
             }
-
-        }
-
-        void RefreshPanelSettings()
-        {
-            try
-            {
-                int result;
-
-                int KZSynMode = (int)SyncMode.EXT_SYNC;
-                result = CareRayInterface.CR_set_sync_mode(KZSynMode);
-                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result && (int)KZ_ERROR_TYPE.ERR_NO_CONFIGFILE != result)
-                {
-                    Console.WriteLine("Set sync mode error, reason: {0}\n " + CareRayErrors.CrErrStrList(result));
-                }
-
-                int expTime = 2000;
-                int delayTime = 100;
-                int waitTime = 5;
-                result = CareRayInterface.CR_set_cycle_time(expTime, delayTime, waitTime);
-                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
-                {
-                    Console.WriteLine("Set cycle time error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
-                }
-
-
-
-                UseCalibrationConfig(Enable1800IGainAlgorithm);
-
-            }
-            catch (System.Exception ex)
-            {
-                Console.WriteLine("RefreshFixedPanelSettings()...catch(1)..." + ex.Message);
-            }
-        }
-
-        void RefreshPanelSettings_DiscardDarkImage()
-        {
-            try
-            {
-                int result;
-
-                int KZSynMode = (int)SyncMode.EXT_SYNC;
-                result = CareRayInterface.CR_set_sync_mode(KZSynMode);
-                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result && (int)KZ_ERROR_TYPE.ERR_NO_CONFIGFILE != result)
-                {
-                    Console.WriteLine("Set sync mode error, reason: {0}\n " + CareRayErrors.CrErrStrList(result));
-                }
-
-
-
-                UseCalibrationConfig(false);
-
-                int expTime = 1;
-                int delayTime = 1;
-                int waitTime = 1;
-                result = CareRayInterface.CR_set_cycle_time(expTime, delayTime, waitTime);
-                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
-                {
-                    Console.WriteLine("Set cycle time error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
-                }
-
-
-
-            }
-            catch (System.Exception ex)
-            {
-                Console.WriteLine("RefreshPanelSettings_DiscarkDarkImage()...catch(1)..." + ex.Message);
-            }
         }
 
         public override void CaptureImageData()
         {
             int result;
 
-            //设置采集的帧数；
-            //int acqImageNuber = int.MaxValue;
-            //设置工作电压；
-            result = CareRayInterface.CR_set_normal_power();
-            if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+            #region Step(1):设置采集的帧数
+
+            acqImageNuber = 1;
+
+            #endregion//End Step(1)
+
+            #region Step(2):设置工作电压
+
+            try
             {
-                Console.WriteLine("CR_set_normal_power error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
-                InitLink();
-            }
-            else
-            {
-                Console.WriteLine("Set panel working voltage successfully.");
-            }
-
-            //刷新Panel的参数设置；
-            RefreshPanelSettings();
-
-            while (acqImageNuber > 0 && WorkStatus)
-            {
-            CaptureDarkImageInstead:
-
-                Console.WriteLine();
-                Console.WriteLine();
-
-                acqImageNuber--;
-
-                //调用函数开始采集；
-                result = CareRayInterface.CR_start_acq_full_image();
+                result = CareRayInterface.CR_set_normal_power();
                 if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
                 {
-                    Console.WriteLine("CR_start_acq_image_full error, reason: " + CareRayErrors.CrErrStrList(result));
+                    Console.WriteLine("CR_set_normal_power error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
                     Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_CAPTURE_WORKSTATUS, 0, 0);
                     Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, -2, 0);
                     WorkStatus = false;
                     return;
                 }
+                else
+                {
+                    Console.WriteLine("Set panel working voltage successfully.");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine("CR_set_normal_power error, reason: {0}\n", ex.Message);
+                Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_CAPTURE_WORKSTATUS, 0, 0);
+                Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, -2, 0);
+                WorkStatus = false;
+                return;
+            }
+            #endregion//End Step(2)
+
+            #region Step(3):刷新Panel的参数设置；
+
+            Console.WriteLine("Step(3):Refresh panel settings...");
+            RefreshPanelSettings();
+
+            #endregion//End Step(3)
+
+            #region Step(4):采集之前本底丢弃，刷新探测器的lag
+
+            //CaptureDarkImage_DiscardDarkImage_BeforeCapture();
+            #endregion//End Step(4)
+
+            #region Step(5):动态本底校正；
+
+            //....
+            #endregion//End Step(5)
+
+            #region  Step(6):是否内触发采集本底
+
+            //...
+            #endregion//End Step(6)
+
+
+            while (acqImageNuber > 0 && WorkStatus)
+            {
+            CaptureImageStartLabelCycle://循环起点标记，在采集出错的特殊情况下使用
+
+                acqImageNuber--;
+
+                #region Step(7):轮询采集图像是否扫描完成
+
+                //调用函数开始采集；
+                result = CareRayInterface.CR_start_acq_full_image();
+                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+                {
+                    Console.WriteLine("Step(7):CR_start_acq_image_full error, reason: " + CareRayErrors.CrErrStrList(result));
+                    Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_CAPTURE_WORKSTATUS, 0, 0);
+                    Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, -2, 0);
+                    WorkStatus = false;
+                    return;
+                }
+
+
 
                 expProg = new CareRayInterface.ExpProgress(); //结构体：存放查询到的采集状态；
                 int awaitOver = 0;
@@ -499,7 +657,8 @@ namespace ImageCapturing
                 DateTime tm = DateTime.Now; //log
                 DateTime tmTotal = DateTime.Now; //log
                 DateTime tmNoReady = DateTime.Now;//计算采集是否超时；
-                double NoReady_Elapse_ms = 0;  //计算采集是否超时；        
+                double NoReady_Elapse_ms = 0;  //计算采集是否超时；  
+
 
                 do
                 {
@@ -519,8 +678,9 @@ namespace ImageCapturing
                     {
                         curExpStatus = expProg.expStatus;
                         Console.WriteLine((CareRayInterface.ExposureStatus)curExpStatus + ":" + (DateTime.Now - tm));
-                        tm = DateTime.Now;
+                        tm = DateTime.Now;//log
 
+                        //在探测器处于准备状态的时候，设置进度条为可出束状态
                         if (curExpStatus == (int)CareRayInterface.ExposureStatus.CR_EXP_READY)
                         {
                             //设置状态栏进度信息；
@@ -541,8 +701,10 @@ namespace ImageCapturing
                     {
                         if (0 == awaitOver)
                         {
-                            Console.WriteLine("CR_permit_exposure");
+                            awaitOver++;
+
                             //only permit once
+                            Console.WriteLine("Step(7):CR_permit_exposure");
                             result = CareRayInterface.CR_permit_exposure();
                             if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
                             {
@@ -553,9 +715,6 @@ namespace ImageCapturing
                                 return;
                             }
 
-                            Console.WriteLine("awaitOver =" + awaitOver);
-                            awaitOver++;
-                            Console.WriteLine("awaitOver =" + awaitOver);
                         }
                     }
                     #endregion
@@ -572,18 +731,24 @@ namespace ImageCapturing
                         NoReady_Elapse_ms = (DateTime.Now - tmNoReady).TotalMilliseconds;
                         if (NoReady_Elapse_ms > 8000)
                         {
-                            Console.WriteLine("[ERROR] Reset 1800I ready,current Panel Status:");
-                            Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff:") + (CareRayInterface.ExposureStatus)expProg.expStatus);
+                            Console.WriteLine("Step(7):Image acquisition timeout 8s");
+                            Console.WriteLine("Panel Status:" + curExpStatus);
                             Console.WriteLine("awaitOver:" + awaitOver);
 
+                            //停止当前帧的采集，尝试再重新采集一张
                             if (awaitOver == 0)
                             {
-                                Console.WriteLine("Reset Ready Status...");
+                                Console.WriteLine("Step(7):Reset 1800I Ready Status...");//log
+
 
                                 result = CareRayInterface.CR_stop_acq_frame();
                                 if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
                                 {
-                                    Console.WriteLine("CR_stop_acq_frame_cleanup error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
+                                    Console.WriteLine("CR_stop_acq_frame error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
+                                    Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_CAPTURE_WORKSTATUS, 0, 0);
+                                    Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, -2, 0);
+                                    WorkStatus = false;
+                                    return;
                                 }
                                 else
                                 {
@@ -599,18 +764,22 @@ namespace ImageCapturing
                                         WorkStatus = false;
                                         return;
                                     }
+
+                                    tmNoReady = DateTime.Now;
                                 }
-                                awaitOver = 0;
-                                tmNoReady = DateTime.Now;
-                            }
+                            }//if (awaitOver == 0)
                             else
                             {
-                                Console.WriteLine("Capture a DarkImage instead.");
+                                Console.WriteLine("Step(7):Capture a DarkImage instead.");
 
-                                result = CareRayInterface.CR_stop_acq_frame();
+                                result = CareRayInterface.CR_start_acq_full_image();
                                 if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
                                 {
-                                    Console.WriteLine("CR_stop_acq_frame error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
+                                    Console.WriteLine("CR_start_acq_image_full error, reason: " + CareRayErrors.CrErrStrList(result));
+                                    Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_CAPTURE_WORKSTATUS, 0, 0);
+                                    Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, -2, 0);
+                                    WorkStatus = false;
+                                    return;
                                 }
                                 else
                                 {
@@ -621,7 +790,7 @@ namespace ImageCapturing
                                     awaitOver = 0;
                                     tmNoReady = DateTime.Now;
 
-                                    goto CaptureDarkImageInstead;
+                                    goto CaptureImageStartLabelCycle;
 
                                 }
                             }
@@ -651,6 +820,9 @@ namespace ImageCapturing
                     return;
                 }
 
+                #endregion
+
+
                 //改变采集到的帧数统计；
                 acqBrightImageNumber++;
                 //输出亮场帧数统计信息；
@@ -660,7 +832,8 @@ namespace ImageCapturing
                 int msgID = GenerateWinMessage("Capturing image number:" + acqBrightImageNumber);
                 Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, msgID, 0);
 
-                //TCP/IP协议网络从Panel缓冲区取出图像；
+                #region Step(8):TCP/IP协议网络从Panel缓冲区取出图像；
+
                 tm = DateTime.Now; //log
                 result = CareRayInterface.CR_get_image_attr(ref this.obj);
                 if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
@@ -673,12 +846,12 @@ namespace ImageCapturing
                 }
                 Console.WriteLine("image_width={0},image_heigth={1},pixel_bits={2}", new object[] { obj.image_width, obj.image_height, obj.pixel_bits });
 
-                int RawFileHeadsize = 65536;
-                int imageSize = this.obj.image_width * this.obj.image_height * this.obj.pixel_bits / 8 + RawFileHeadsize;
+                int imageSize = this.obj.image_width * this.obj.image_height * this.obj.pixel_bits / 8 + RawFileHeadSize;
                 int imageRows = obj.image_height;
                 int imageColumns = obj.image_width;
-                bool with_head = RawFileHeadsize > 0;
+                bool with_head = RawFileHeadSize > 0;
 
+                //通过TCP/IP传输从缓冲区获取图像
                 result = CareRayInterface.CR_get_image(imageSize, with_head, this.pAcqBuffer);
                 if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
                 {
@@ -690,14 +863,18 @@ namespace ImageCapturing
                 }
 
                 Console.WriteLine("CR_get_image():(TCP/IP)Transfer image time=" + (DateTime.Now - tm));//log
+                #endregion
 
-                //封装数据到对象ImageObject;
+                #region Step(9)封装数据到对象ImageObject
 
                 tm = DateTime.Now;
 
-                ushort[,] imagedata = BufferToArray(this.pAcqBuffer, RawFileHeadsize, imageRows, imageColumns);
                 RefreshScale();
+
                 ImageObject imageObjectBase = new ImageObject();
+
+                ushort[,] imagedata = BufferToArray(this.pAcqBuffer, RawFileHeadSize, imageRows, imageColumns);
+
                 imageObjectBase.pixelSize = this.pixelSize;
                 imageObjectBase.centerX = this.imageCenterX;
                 imageObjectBase.centerY = this.imageCenterY;
@@ -705,18 +882,22 @@ namespace ImageCapturing
                 imageObjectBase.createTime = DateTime.Now;
 
                 Console.WriteLine("Encapsulate image data to ImageROI time=" + (DateTime.Now - tm));//log
-
+                #endregion
 
                 Console.WriteLine("Rad image total time=" + (DateTime.Now - tmTotal));//log
 
+                #region Step(10):将采集到的数据ImageROI对象压入到堆栈中供异步处理
 
                 //压入堆栈；
                 imgList.Enqueue(imageObjectBase);
                 //发送消息到采集界面；保存数据库；  
                 Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_CAPTURE_DATA, (int)captureImageMode, acqBrightImageNumber);
+                #endregion
 
+                #region Step(11):采集之后采集本底丢弃，刷新探测器lag
                 //采集本底丢弃；
-                CaptureDarkImage_DiscardDarkImage();
+                //CaptureDarkImage_DiscardDarkImage_AfterCapture();
+                #endregion
 
             }//while frame;
 
@@ -726,8 +907,29 @@ namespace ImageCapturing
             WorkStatus = false;
         }
 
+        void BackgroundWorkerCaptureImageData_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (!e.Argument.Equals(identificationStr))
+            {
+                Console.WriteLine("BackgroundWorkerCaptureImageData_DoWork():Thread conflict.");
+                return;
+            }
+            CaptureImageData();
+        }
+
+
         public override void Cancel()
         {
+            if (WorkStatus)
+            {
+                //强制中断采集
+                int result = CareRayInterface.CR_stop_acq_frame();
+                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+                {
+                    Console.WriteLine("CR_stop_acq_frame error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
+                }
+            }
+
             WorkStatus = false;
             Kernel32Interface.PostMessage(this.HostHandle, WIN_MSG.WM_CAPTURE_WORKSTATUS, 0, 0);
             Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, -2, 0);
@@ -749,34 +951,6 @@ namespace ImageCapturing
 
         #region 连接1800I Panel
 
-        public static bool PingIpOrDomainName(string strIpOrDName)
-        {
-            try
-            {
-                Ping objPingSender = new Ping();
-                PingOptions objPinOptions = new PingOptions();
-                objPinOptions.DontFragment = true;
-                string data = "";
-                byte[] buffer = Encoding.UTF8.GetBytes(data);
-                int intTimeout = 120;
-                PingReply objPinReply = objPingSender.Send(strIpOrDName, intTimeout, buffer, objPinOptions);
-                string strInfo = objPinReply.Status.ToString();
-                if (strInfo == "Success")
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception Ex)
-            {
-                Console.WriteLine(Ex.Message);
-                return false;
-            }
-        }
-
         public override void AsyncInitLink()
         {
             LinkPanelThread.Start();
@@ -784,7 +958,6 @@ namespace ImageCapturing
 
         private void LinkPanelThreadFun()
         {
-            string PanelIP = "192.168.68.1";
             while (true)
             {
                 bool v = PingIpOrDomainName(PanelIP);
@@ -797,23 +970,34 @@ namespace ImageCapturing
                     v = PingIpOrDomainName(PanelIP);
                     if (!v)
                     {
-                        LinkStatus = PanelLinkStatus.LINK_FAIL;
+                        LinkStatus = PanelLinkStatus.NONETWORK;
                     }
                 }
 
-                Thread.Sleep(200);
+                //是否后台监测平板的网络连接
+                if (!MonitorPanelNetwork_Background)
+                {
+                    if (LinkStatus == PanelLinkStatus.LINK_SUCCESS)
+                    {
+                        break;
+                    }
+                }
+
+                Thread.Sleep(1000);
             }
         }
 
         public override void InitLink()
         {
             LinkPanelMutex.WaitOne();
+
             if (LinkStatus != PanelLinkStatus.LINK_SUCCESS)
             {
                 bool v = TryLink();
                 if (v)
                 {
                     LinkStatus = PanelLinkStatus.LINK_SUCCESS;
+
                     InitParam();
                 }
                 else
@@ -827,24 +1011,181 @@ namespace ImageCapturing
 
         private bool TryLink()
         {
-            Console.WriteLine(1);
-            int result = (int)KZ_ERROR_TYPE.CR_NO_ERR;
+            Console.WriteLine("0.96 Static try link...");
+
+            int result;
+
             byte* path = (byte*)Marshal.StringToCoTaskMemAnsi(CapturePub.CareRayPath);
             result = CareRayInterface.CR_connect_detector(path);
-            if (result != (int)KZ_ERROR_TYPE.CR_NO_ERR)
+
+            bool v = result == (int)KZ_ERROR_TYPE.CR_NO_ERR;
+            if (!v)
             {
                 Console.WriteLine("Connect default detector (IP:192.168.68.1) error, reason: %s\n", CareRayErrors.CrErrStrList(result));
                 Console.WriteLine("For dual_system, try to connect another detector (IP:192.168.68.2)...\n\n");
-                return false;
             }
             else
             {
                 Console.WriteLine("Connect detector successfully");
-                return true;
             }
+
+
+            if ((IntPtr)path != IntPtr.Zero)
+            {
+                Marshal.FreeCoTaskMem((IntPtr)path);
+            }
+
+            return v;
         }
 
         #endregion
+
+
+        void AllocAcquireMemory()
+        {
+            if ((IntPtr)((void*)this.pAcqBuffer) != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal((IntPtr)((void*)this.pAcqBuffer));
+                this.pAcqBuffer = (ushort*)(void*)IntPtr.Zero;
+            }
+            this.pAcqBuffer = (ushort*)(void*)Marshal.AllocHGlobal(2816 * 2816 * 2 + RawFileHeadSize);
+        }
+
+        
+        void FreeMemory()
+        {
+            if ((IntPtr)this.pAcqBuffer != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal((IntPtr)((void*)this.pAcqBuffer));
+                this.pAcqBuffer = (ushort*)(void*)IntPtr.Zero;
+            }
+        }
+
+
+        int performOffsetCalibration()
+        {
+            int result;
+
+            //获取gain标定相关配置参数（为windows界面显示offset Calibration帧数进度服务）
+            int offsetFrameNumber = 32;
+            cal_params = new CareRayInterface.CalParams(); //必须重新new
+            result = CareRayInterface.CR_get_cal_params(ref cal_params);
+            if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+            {
+                Console.WriteLine("CR_get_cal_params error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
+            }
+            offsetFrameNumber = cal_params.ofst_cal_num;
+
+            int msgID = GenerateWinMessage("Offset Calibration...");
+            Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, msgID, /*offsetFrameNumber*/0);
+
+
+            #region Step(1):调用函数开始执行Offset Calibration
+
+            //不能中断校准过程标记设置
+            result = CareRayInterface.CR_stop_cal_procedure(0);
+            if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+            {
+                Console.WriteLine("CR_stop_cal_procedure error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
+            }
+
+            //执行Offset Calibration开始函数；出现错误1053错误可以修复
+            result = CareRayInterface.CR_cal_offset((int)checkMode);
+
+            if (result == 1053)
+            {
+                Console.WriteLine("offset calibration ERROR 1053,reset CR_cal_offset");
+
+                result = CareRayInterface.CR_stop_cal_procedure(1);
+                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+                {
+                    Console.WriteLine("CR_stop_cal_procedure error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
+                }
+
+                result = CareRayInterface.CR_stop_acq_frame_cleanup();
+                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+                {
+                    Console.WriteLine("CR_stop_acq_frame_cleanup error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
+                }
+
+                Thread.Sleep(1000);
+
+                result = CareRayInterface.CR_stop_cal_procedure(0);
+                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+                {
+                    Console.WriteLine("CR_stop_cal_procedure error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
+                }
+
+                Console.WriteLine("Reset offset calibration...");
+                result = CareRayInterface.CR_cal_offset((int)checkMode);
+                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+                {
+                    Console.WriteLine("CR_cal_offset error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
+                    Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, -2, 0);
+                    return result;
+                }
+            }
+            else if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+            {
+                Console.WriteLine("CR_cal_offset error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
+                Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, -2, 0);
+                return result;
+            }
+            #endregion
+
+
+            #region Step(2):循环Offset Calibraion是否结束
+
+            DateTime tm = DateTime.Now;
+            int frame_num = 0;//查询采集到的帧数
+
+            do
+            {
+                result = CareRayInterface.CR_query_prog_info((int)CareRayInterface.ProgType.CR_CAL_PROG, ref calProg);
+                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+                {
+                    Console.WriteLine("CR_query_prog_info error, reason: " + CareRayErrors.CrErrStrList(result));
+                    break;
+                }
+
+                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != calProg.errorCode)
+                {
+                    Console.WriteLine("Offset calibration process error code =" + calProg.errorCode);
+                    result = calProg.errorCode;
+                    break;
+                }
+
+                if (calProg.frame_number > frame_num)
+                {
+                    frame_num = calProg.frame_number;
+                    Console.WriteLine("Offset calibration...received dark images:" + frame_num);
+
+                    msgID = GenerateWinMessage("Offset Calibration..." + frame_num);
+                    Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, msgID, 0);
+                }
+
+                Thread.Sleep(100);
+
+            } while (calProg.calComplete == 0 && WorkStatus);
+
+            if (1 == calProg.calComplete)
+            {
+                Console.WriteLine("Offset calibration successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Error occured in offset calibration");
+                result = -1;
+            }
+
+            Console.WriteLine("Offset cal total time = " + (DateTime.Now - tm));
+
+            #endregion
+
+            Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, -2, 0);
+
+            return result;
+        }
 
         public void ThreadOffsetCalibration()
         {
@@ -861,9 +1202,13 @@ namespace ImageCapturing
         {
             WorkStatus = true;
             Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_CAPTURE_WORKSTATUS, 2, 0);
+            
 
+            //Step(1):刷新Panel参数设置
+            Console.WriteLine("Step(1):(Offset Calibration)Refresh panel settings...");
             RefreshPanelSettings();
 
+            //Step(2):Call Offset Calibration
             int v = performOffsetCalibration();
             e.Result = v;
 
@@ -884,119 +1229,6 @@ namespace ImageCapturing
 
         }
 
-        public int performOffsetCalibration()
-        {
-            int result;
-
-            int offsetFrameNumber = 32;
-            cal_params = new CareRayInterface.CalParams(); //必须重新new
-            result = CareRayInterface.CR_get_cal_params(ref cal_params);
-            if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
-            {
-                Console.WriteLine("CR_get_cal_params error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
-            }
-
-            offsetFrameNumber = cal_params.ofst_cal_num;
-
-            int msgID = GenerateWinMessage("Offset Calibration...");
-            Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, msgID, 0);
-
-            result = CareRayInterface.CR_stop_cal_procedure(0);
-            if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
-            {
-                Console.WriteLine("CR_stop_cal_procedure error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
-            }
-
-            result = CareRayInterface.CR_cal_offset(checkMode);
-
-            if (result == 1053)
-            {
-                Console.WriteLine("offset calibration ERROR 1053,reset CR_cal_offset");
-
-                result = CareRayInterface.CR_stop_cal_procedure(1);
-                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
-                {
-                    Console.WriteLine("CR_stop_cal_procedure error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
-                }
-
-
-                result = CareRayInterface.CR_stop_acq_frame_cleanup();
-                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
-                {
-                    Console.WriteLine("CR_stop_acq_frame_cleanup error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
-                }
-
-                Thread.Sleep(1000);
-
-                result = CareRayInterface.CR_stop_cal_procedure(0);
-                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
-                {
-                    Console.WriteLine("CR_stop_cal_procedure error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
-                }
-
-                Console.WriteLine("Reset offset calibration...");
-                result = CareRayInterface.CR_cal_offset(checkMode);
-                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
-                {
-                    Console.WriteLine("CR_cal_offset error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
-                    Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, -2, 0);
-                }
-            }
-            else if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
-            {
-                Console.WriteLine("CR_cal_offset error, reason: {0}\n", CareRayErrors.CrErrStrList(result));
-                Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, -2, 0);
-            }
-
-            calProg = new CareRayInterface.ExpProgress();
-            DateTime tm = DateTime.Now;
-            int frame_num = 0;
-
-            do
-            {
-                result = CareRayInterface.CR_query_prog_info((int)CareRayInterface.ProgType.CR_CAL_PROG, ref calProg);
-                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
-                {
-                    Console.WriteLine("CR_query_prog_info error, reason: " + CareRayErrors.CrErrStrList(result));
-                    break;
-                }
-
-                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != calProg.errorCode)
-                {
-                    Console.WriteLine("Offset calibration process error code =" + calProg.errorCode);
-                    break;
-                }
-
-                if (calProg.frame_number > frame_num)
-                {
-                    frame_num = calProg.frame_number;
-                    Console.WriteLine("Offset calibration...received dark images:" + frame_num);
-
-
-                    msgID = GenerateWinMessage("Offset Calibration..." + frame_num);
-                    Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, msgID, 0);
-                }
-                Thread.Sleep(100);
-
-            } while (calProg.calComplete == 0 && WorkStatus);
-
-            if (1 == calProg.calComplete)
-            {
-                Console.WriteLine("Offset calibration successfully.");
-            }
-            else
-            {
-                Console.WriteLine("Error occured in offset calibration");
-                result = -1;
-            }
-
-            Console.WriteLine("Offset cal total time = " + (DateTime.Now  - tm));
-
-            Kernel32Interface.PostMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, -2, 0);
-
-            return result;
-
-        }
 
         public int performGainCalibrationInTwoSteps(List<ImageObject> listImages)
         {
@@ -1384,26 +1616,6 @@ namespace ImageCapturing
 
         }
 
-        void AllocAcquireMemory()
-        {
-            if ((IntPtr)((void*)this.pAcqBuffer) != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal((IntPtr)((void*)this.pAcqBuffer));
-                Kernel32Interface.CloseHandle((IntPtr)((void*)this.pAcqBuffer));
-                this.pAcqBuffer = (ushort*)(void*)IntPtr.Zero;
-            }
-            this.pAcqBuffer = (ushort*)(void*)Marshal.AllocHGlobal(2816 * 2816 * 2 + 65536);
-        }
-
-        void FreeMemory()
-        {
-            if ((IntPtr)this.pAcqBuffer != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal((IntPtr)((void*)this.pAcqBuffer));
-                Kernel32Interface.CloseHandle((IntPtr)((void*)this.pAcqBuffer));
-                this.pAcqBuffer = (ushort*)(void*)IntPtr.Zero;
-            }
-        }
 
         public static ushort[,] BufferToArray(ushort* Buffer, int headsize, int Row, int Col)
         {

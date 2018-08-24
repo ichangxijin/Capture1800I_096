@@ -345,9 +345,9 @@ namespace ImageCapturing
             }
 
 
-            if (xmlFrameNum != FrameCount)
+            if (xmlFrameNum != SeqFrameCount)
             {
-                FrameCount = xmlFrameNum;
+                SeqFrameCount = xmlFrameNum;
                 if ((IntPtr)pAcqBuffer != IntPtr.Zero)
                 {
                     Marshal.FreeHGlobal((IntPtr)pAcqBuffer);
@@ -572,7 +572,7 @@ namespace ImageCapturing
                 PKL_Interface.Acquisition_SetTimerSync(hAcqDesc, ref pki_config.integrationTime);
                 PKL_Interface.Acquisition_SetCameraMode(hAcqDesc, (uint)pki_config.readoutTimingMode);
 
-                PKL_Interface.Acquisition_DefineDestBuffers(hAcqDesc, pAcqBuffer, (uint)FrameCount, imageRows, imageColumns);
+                PKL_Interface.Acquisition_DefineDestBuffers(hAcqDesc, pAcqBuffer, (uint)SeqFrameCount, imageRows, imageColumns);
                 PKL_Interface.Acquisition_Acquire_Image(hAcqDesc, (uint)1, 0, (uint)SeqBufferMode.HIS_SEQ_ONE_BUFFER, null, null, null);
 
             }
@@ -582,8 +582,8 @@ namespace ImageCapturing
             PKL_Interface.Acquisition_SetCameraTriggerMode(hAcqDesc, 3);
 
             PKL_Interface.Acquisition_SetFrameSyncMode(hAcqDesc, (uint)CaptureSynchronizationMode.HIS_SYNCMODE_SOFT_TRIGGER);
-            PKL_Interface.Acquisition_DefineDestBuffers(hAcqDesc, pAcqBuffer, (uint)FrameCount, imageRows, imageColumns);
-            PKL_Interface.Acquisition_Acquire_Image(hAcqDesc, (uint)FrameCount, 0, (uint)SeqBufferMode.HIS_SEQ_ONE_BUFFER, null, null, null);
+            PKL_Interface.Acquisition_DefineDestBuffers(hAcqDesc, pAcqBuffer, (uint)SeqFrameCount, imageRows, imageColumns);
+            PKL_Interface.Acquisition_Acquire_Image(hAcqDesc, (uint)SeqFrameCount, 0, (uint)SeqBufferMode.HIS_SEQ_ONE_BUFFER, null, null, null);
 
         }
 
@@ -715,7 +715,7 @@ namespace ImageCapturing
                 Kernel32Interface.SendMessage(HostHandle, WIN_MSG.WM_SHOW_PROGRESS, msgID, 0);
                 Kernel32Interface.SendMessage(HostHandle, WIN_MSG.WM_CAPTURE_DATA, (int)captureImageMode, (int)pki_config.imageCorrection);
 
-                if (acqFrameSN == FrameCount)
+                if (acqFrameSN == SeqFrameCount)
                 {
                     acqFrameSN = 0;
                 }
@@ -1066,7 +1066,7 @@ namespace ImageCapturing
                 Kernel32Interface.CloseHandle((IntPtr)pAcqBuffer);
                 pAcqBuffer = (ushort*)IntPtr.Zero;
             }
-            pAcqBuffer = (ushort*)Marshal.AllocHGlobal((int)(FrameCount * imageRows * imageColumns * sizeof(short)));
+            pAcqBuffer = (ushort*)Marshal.AllocHGlobal((int)(SeqFrameCount * imageRows * imageColumns * sizeof(short)));
         }
 
         private void AllocAcquireOneImageMemory()

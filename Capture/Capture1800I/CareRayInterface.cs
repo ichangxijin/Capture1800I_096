@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.IO;
 
 namespace ImageCapturing
 {
@@ -174,5 +175,45 @@ namespace ImageCapturing
         [DllImport(API_1800I_DLL)]
         public static extern int CR_start_soft_acquisition();
 
+        /// <summary>
+        /// 读取配置文件字段
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="optName"></param>
+        /// <returns></returns>
+        public static string ReadConfigOptionValue(string fileName,string optName)
+        {
+            if (!File.Exists(fileName))
+            {
+                return "";
+            }
+
+            string optValue = "";
+            try
+            {
+                using(FileStream fs = new FileStream(fileName,FileMode.Open))
+                {
+                    fs.Position = 0;
+                    StreamReader sr = new StreamReader(fs);
+
+                    while(!sr.EndOfStream)
+                    {
+                        string strline = sr.ReadLine();
+                        if (strline.StartsWith(optName))
+                        {
+                            string[] sp = strline.Split('=');
+                            optValue = sp[1].Trim();
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine("ReadConfigOptionValue():Error:" + ex.Message);
+            }
+
+            return optValue;
+        }
     }
 }

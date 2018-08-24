@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Capture1800I\Capture1800I_096.cs" />
     <Compile Include="CapturePekinElmer\CaptureLocalFile.cs" />
     <Compile Include="Capture1800I\Capture1800I_096Static.cs" />
     <Compile Include="Capture1800I\CareRayErrors.cs" />

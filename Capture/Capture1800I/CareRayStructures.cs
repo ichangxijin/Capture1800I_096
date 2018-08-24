@@ -306,12 +306,16 @@ namespace ImageCapturing
         public enum CheckMode
         {
             MODE_UNDEFINED = 0,
-            MODE_RAD = 16,
-            MODE_TEST = 20,
-            MODE_BIN22 = 21,
-            MODE_NDT = 22,
-            MODE_PREV = 23,
-            MODE_MAXID = 24,
+            MODE_RAD = 0x10,
+            MODE_FLUORO = 0x11,
+            MODE_TEST = 0x14,
+            MODE_BIN22 = 0x15,
+            MODE_NDT = 0x16,
+            MODE_PREV = 0x17,
+            MODE_BIN11 = 0x18,
+            MODE_FLUORO_START = 100,
+            MODE_FLUORO_END = 1000,
+            MODE_MAXID,
         }
 
         private enum DetectorState
@@ -349,6 +353,9 @@ namespace ImageCapturing
             MANUAL_SYNC,
             SCAN_SYNC,
             AED_SYNC,
+            MUTIL_EXT_SYN,
+            EXT_TRIGGER = 8, //Exteral Trigger ,used in fluoro mode
+            INI_TRIGGER //Internal Trigger,used in fluoro mode
         }
 
         public enum PowerMode

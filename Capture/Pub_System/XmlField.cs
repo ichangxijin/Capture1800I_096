@@ -42,6 +42,14 @@ namespace ImageCapturing
         public static string CareRay_ExposureTime = "CareRay_ExposureTime";
         public static string CareRay_ExposureDelay = "CareRay_ExposureDelay";
         public static string CareRay_ExposureWait = "CareRay_ExposureWait";
+
+        public static string CareRay_ExposureTime_DiscardDarkImage = "CareRay_ExposureTime_DiscardDarkImage";
+        public static string CareRay_ExposureDelay_DiscardDarkImage = "CareRay_ExposureDelay_DiscardDarkImage";
+        public static string CareRay_ExposureWait_DiscardDarkImage = "CareRay_ExposureWait_DiscardDarkImage";
         public static string CareRay_ExposureSycMode = "CareRay_ExposureSycMode";
+        public static string MonitorPanelNetwork_Background = "MonitorPanelNetwork_Background";
+        public static string Enable1800IGainAlgorithm = "Enable1800IGainAlgorithm";
+        public static string _1800I096Rad_DoFixedGainCalibration = "1800I096Rad_DoFixedGainCalibration";
+        public static string CareRay_GainValue = "1800I_GainValue";
     }
 }
