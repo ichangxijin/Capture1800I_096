@@ -433,14 +433,6 @@ namespace ImageCapturing
                 }
                 //4，设置输出1800I的Gain校正算法
                 UseCalibrationConfig(Enable1800IGainAlgorithm);
-                if (checkMode == (int)CareRayInterface.CheckMode.MODE_RAD)
-                {
-                    RawFileHeadSize = 65536;
-                }
-                else
-                {
-                    RawFileHeadSize = 4;
-                }
 
             }
             catch (System.Exception ex)
@@ -687,6 +679,8 @@ namespace ImageCapturing
                         RefreshScale();
 
                         ImageObject imageObjectBase = new ImageObject();
+
+                        int RawFileHeadSize = 4;
 
                         ushort[,] imagedata = BufferToArray(imageData, RawFileHeadSize, imageRows, imageColumns);
 
