@@ -41,6 +41,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.textBoxPanelIP = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Button1
@@ -73,7 +75,7 @@
             // textBoxDelayTime
             // 
             this.textBoxDelayTime.ForeColor = System.Drawing.Color.Blue;
-            this.textBoxDelayTime.Location = new System.Drawing.Point(194, 126);
+            this.textBoxDelayTime.Location = new System.Drawing.Point(200, 181);
             this.textBoxDelayTime.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxDelayTime.Name = "textBoxDelayTime";
             this.textBoxDelayTime.Size = new System.Drawing.Size(192, 27);
@@ -82,7 +84,7 @@
             // textBoxExposureTime
             // 
             this.textBoxExposureTime.ForeColor = System.Drawing.Color.Blue;
-            this.textBoxExposureTime.Location = new System.Drawing.Point(194, 80);
+            this.textBoxExposureTime.Location = new System.Drawing.Point(200, 135);
             this.textBoxExposureTime.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxExposureTime.Name = "textBoxExposureTime";
             this.textBoxExposureTime.Size = new System.Drawing.Size(192, 27);
@@ -90,7 +92,7 @@
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(30, 85);
+            this.label5.Location = new System.Drawing.Point(36, 140);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(144, 18);
             this.label5.TabIndex = 222;
@@ -99,7 +101,7 @@
             // 
             // label46
             // 
-            this.label46.Location = new System.Drawing.Point(30, 131);
+            this.label46.Location = new System.Drawing.Point(36, 186);
             this.label46.Name = "label46";
             this.label46.Size = new System.Drawing.Size(144, 18);
             this.label46.TabIndex = 220;
@@ -108,14 +110,14 @@
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(30, 36);
+            this.label2.Location = new System.Drawing.Point(36, 91);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(126, 18);
             this.label2.TabIndex = 228;
             this.label2.Text = "Work Mode";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // comboBoxPanelInterface
+            // comboBoxWorkMode
             // 
             this.comboBoxWorkMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxWorkMode.ForeColor = System.Drawing.Color.Blue;
@@ -124,16 +126,16 @@
             "2688",
             "1408",
             "704"});
-            this.comboBoxWorkMode.Location = new System.Drawing.Point(194, 31);
+            this.comboBoxWorkMode.Location = new System.Drawing.Point(200, 86);
             this.comboBoxWorkMode.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.comboBoxWorkMode.Name = "comboBoxPanelInterface";
+            this.comboBoxWorkMode.Name = "comboBoxWorkMode";
             this.comboBoxWorkMode.Size = new System.Drawing.Size(192, 30);
             this.comboBoxWorkMode.TabIndex = 227;
             // 
             // textBoxWaitTime
             // 
             this.textBoxWaitTime.ForeColor = System.Drawing.Color.Blue;
-            this.textBoxWaitTime.Location = new System.Drawing.Point(194, 172);
+            this.textBoxWaitTime.Location = new System.Drawing.Point(200, 227);
             this.textBoxWaitTime.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxWaitTime.Name = "textBoxWaitTime";
             this.textBoxWaitTime.Size = new System.Drawing.Size(192, 27);
@@ -141,7 +143,7 @@
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(30, 177);
+            this.label1.Location = new System.Drawing.Point(36, 232);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(144, 18);
             this.label1.TabIndex = 230;
@@ -150,7 +152,7 @@
             // 
             // buttonOK
             // 
-            this.buttonOK.Location = new System.Drawing.Point(194, 232);
+            this.buttonOK.Location = new System.Drawing.Point(200, 287);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 43);
             this.buttonOK.TabIndex = 231;
@@ -160,7 +162,7 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(311, 232);
+            this.buttonCancel.Location = new System.Drawing.Point(317, 287);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 43);
             this.buttonCancel.TabIndex = 232;
@@ -168,12 +170,32 @@
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
+            // textBoxPanelIP
+            // 
+            this.textBoxPanelIP.ForeColor = System.Drawing.Color.Blue;
+            this.textBoxPanelIP.Location = new System.Drawing.Point(200, 31);
+            this.textBoxPanelIP.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.textBoxPanelIP.Name = "textBoxPanelIP";
+            this.textBoxPanelIP.Size = new System.Drawing.Size(192, 27);
+            this.textBoxPanelIP.TabIndex = 233;
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(36, 36);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(144, 18);
+            this.label3.TabIndex = 234;
+            this.label3.Text = "Panel IP";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // CaptureParameterSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.ClientSize = new System.Drawing.Size(433, 287);
+            this.ClientSize = new System.Drawing.Size(433, 355);
+            this.Controls.Add(this.textBoxPanelIP);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.textBoxWaitTime);
@@ -208,5 +230,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.TextBox textBoxPanelIP;
+        private System.Windows.Forms.Label label3;
     }
 }

@@ -78,9 +78,12 @@ namespace ImageCapturing
             }
             else
             {
-                bool link = ImgCapture.LinkStatus == PanelLinkStatus.LINK_SUCCESS;
-                Color c = link ? Color.Green : Color.Gray;
-                this.pictureBox1.BackColor = c;
+                if (!pictureBox1.IsDisposed && !pictureBox1.Disposing)
+                {
+                    bool link = ImgCapture.LinkStatus == PanelLinkStatus.LINK_SUCCESS;
+                    Color c = link ? Color.Green : Color.Gray;
+                    this.pictureBox1.BackColor = c;
+                }
             }
         }
 
@@ -467,7 +470,7 @@ namespace ImageCapturing
                 if (dir == DialogResult.OK)
                 {
                     ImgCapture.ReadCaptureConfig();
-                    ImgCapture.RefreshPanelSettings();
+                    //ImgCapture.ReadCaptureConfig();
                 }
             }
         }

@@ -35,6 +35,12 @@ namespace ImageCapturing
             CapturePub.saveCaptrueValue(XmlField.CareRay_ExposureDelay, this.textBoxDelayTime.Text);
             CapturePub.saveCaptrueValue(XmlField.CareRay_ExposureWait, this.textBoxWaitTime.Text);
 
+
+            string config_file = CapturePub.CareRayPath + "Config.ini";
+            CareRayInterface.SaveConfigOptionValue(config_file, "ipAddress",textBoxPanelIP.Text.Trim());
+
+
+
             this.DialogResult = DialogResult.OK;
         }
 
@@ -59,6 +65,12 @@ namespace ImageCapturing
             this.textBoxExposureTime.Text = CapturePub.readCaptrueValue(XmlField.CareRay_ExposureTime);
             this.textBoxDelayTime.Text = CapturePub.readCaptrueValue(XmlField.CareRay_ExposureDelay);
             this.textBoxWaitTime.Text = CapturePub.readCaptrueValue(XmlField.CareRay_ExposureWait);
+
+
+            string config_file = CapturePub.CareRayPath + "Config.ini";
+            string PanelIP = CareRayInterface.ReadConfigOptionValue(config_file, "ipAddress");
+
+            this.textBoxPanelIP.Text = PanelIP;
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)

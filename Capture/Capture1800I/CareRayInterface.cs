@@ -215,5 +215,53 @@ namespace ImageCapturing
 
             return optValue;
         }
+
+        /// <summary>
+        /// 保存配置字段
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="optName"></param>
+        /// <param name="optValue"></param>
+        public static void SaveConfigOptionValue(string fileName, string optName, string optValue)
+        {
+            if (!File.Exists(fileName))
+            {
+                return ;
+            }
+
+            try
+            {
+                using (FileStream fs = new FileStream(fileName, FileMode.Open))
+                {
+                    fs.Position = 0;
+                    StreamReader sr = new StreamReader(fs);
+                    List<string> list = new List<string>();
+                    while (!sr.EndOfStream)
+                    {
+                        string strline = sr.ReadLine();
+                        if (strline.StartsWith(optName))
+                        {
+                            string[] sp = strline.Split('=');
+                            sp[1] = optValue;
+                            strline = string.Join("=", sp);
+                        }
+                        list.Add(strline);
+                    }
+
+                    fs.Position = 0;
+
+                    StreamWriter sw = new StreamWriter(fs);
+                    foreach (string strline in list)
+                    {
+                        sw.WriteLine(strline);
+                    }
+                    sw.Flush();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine("ReadConfigOptionValue():Error:" + ex.Message);
+            }
+        }
     }
 }

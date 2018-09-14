@@ -59,6 +59,10 @@ namespace ImageCapturing
         /// </summary>
         string PanelIP = "192.168.68.1";
         /// <summary>
+        /// 当前正在连接的IP地址
+        /// </summary>
+        string CurrentLinkedPanelIP = "";
+        /// <summary>
         /// 是否后台监测Panel网络连接
         /// </summary>
         bool MonitorPanelNetwork_Background = false;
@@ -375,7 +379,10 @@ namespace ImageCapturing
             {
                 GainValue = 1;
                 CapturePub.saveCaptrueValue(XmlField.CareRay_GainValue, GainValue.ToString());
-            }
+            } 
+            //10,读取Panel IP地址
+            string config_file = CapturePub.CareRayPath + "Config.ini";
+            PanelIP = CareRayInterface.ReadConfigOptionValue(config_file, "ipAddress");
 
             #region 采集前丢弃本底的设置
 
@@ -1214,6 +1221,19 @@ namespace ImageCapturing
                     v = PingIpOrDomainName(PanelIP);
                     if (!v)
                     {
+                        //如果之前是连接的状态，断开之前的连接
+                        if (LinkStatus == PanelLinkStatus.LINK_SUCCESS)
+                        {
+                            Console.WriteLine("disconnect panel...");
+                            int result = CareRayInterface.CR_disconnect_detector();
+                            if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+                            {
+                                Console.WriteLine("CR_disconnect_detector error, reason: " + CareRayErrors.CrErrStrList(result));
+                            }
+                            Console.WriteLine("finish disconnect panel...");
+                        }
+
+
                         LinkStatus = PanelLinkStatus.NONETWORK;
                     }
                 }
@@ -1235,11 +1255,13 @@ namespace ImageCapturing
         {
             LinkPanelMutex.WaitOne();
 
-            if (LinkStatus != PanelLinkStatus.LINK_SUCCESS)
+            if (LinkStatus != PanelLinkStatus.LINK_SUCCESS || CurrentLinkedPanelIP != PanelIP)
             {
                 bool v = TryLink();
                 if (v)
                 {
+                    CurrentLinkedPanelIP = PanelIP;
+
                     LinkStatus = PanelLinkStatus.LINK_SUCCESS;
 
                     InitParam();
@@ -1255,9 +1277,19 @@ namespace ImageCapturing
 
         private bool TryLink()
         {
-            Console.WriteLine("0.96 Static try link...");
+            Console.WriteLine("0.96 try link...");
 
             int result;
+
+            if (LinkStatus == PanelLinkStatus.LINK_SUCCESS)
+            {
+                result = CareRayInterface.CR_disconnect_detector();
+                if ((int)KZ_ERROR_TYPE.CR_NO_ERR != result)
+                {
+                    Console.WriteLine("CR_disconnect_detector error, reason: " + CareRayErrors.CrErrStrList(result));
+                }
+            }
+
 
             byte* path = (byte*)Marshal.StringToCoTaskMemAnsi(CapturePub.CareRayPath);
             result = CareRayInterface.CR_connect_detector(path);
